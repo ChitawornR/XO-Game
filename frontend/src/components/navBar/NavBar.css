@@ -1,0 +1,56 @@
+.navBar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 10%;
+}
+
+ul {
+  list-style: none;
+  padding: 20px 30px;
+  border-radius: 30px;
+  box-shadow: 0 0 20px 0 rgba(0,0,0,.1);
+}
+
+ul li {
+  display: inline-block;
+}
+
+ul li a {
+  display: inline-block;
+  padding: 0 10px;
+  margin: 0 10px;
+  color: black;
+  font-size: 20px;
+  position: relative;
+  transition: color 0.3s;
+}
+
+/* underline */
+ul li a::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 2px;
+  background: black;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+/* text color to red when active */
+ul li a:hover,
+ul li a:focus,
+ul li a.active {
+  color: red;
+}
+
+/* text underline when active */
+ul li a:hover::before,
+ul li a:focus::before,
+ul li a.active::before {
+  opacity: 1;
+}

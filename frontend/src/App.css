@@ -1,0 +1,6 @@
+.container{
+    max-width: 1200px;
+    min-height: 80vh; /* 80% of view port hight */
+    border: 1px solid red; /* for design web layout */
+    margin: auto; /* to set center, auto margin of display content  */
+}

@@ -3,3 +3,31 @@
   margin: 0;
   box-sizing: border-box;
 }
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+
+a{
+  text-decoration: none;
+}
+
+button{
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 10px 20px;
+  border: none;
+}
+
+button:focus{
+  outline: none;
+}

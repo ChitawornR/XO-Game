@@ -1,0 +1,35 @@
+.inputSizeForm{
+    max-width: 800px;
+    min-height: 50vh;
+    margin: auto;
+    /* border: 1px solid black; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);;
+}
+
+.btnBottomForm button{
+    margin: 10px;
+    color: white;
+    font-size: 20px;
+}
+
+input{
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+input:focus{
+    outline: none;
+}
+
+label{
+    font-size: 40px;
+}

@@ -1,8 +1,11 @@
 import React from 'react'
+import InputsizeForm from '../components/InputSizeForm/InputsizeForm'
 
 function Home() {
   return (
-    <div>Home</div>
+    <div>
+      <InputsizeForm/>
+    </div>
   )
 }
 

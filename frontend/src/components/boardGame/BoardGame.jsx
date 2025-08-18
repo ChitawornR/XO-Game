@@ -1,21 +1,48 @@
-import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import "./BoardGame.css";
 
 function BoardGame() {
-  const navigate = useNavigate();
   const location = useLocation();
   const { isSinglePlayer, size } = location.state; // isSinglePlayer and size
-  // console.log(isSinglePlayer,size)
+
+  //  create metrix board size*size content ''
   const emptyBoard = Array(size)
     .fill(null)
     .map(() => Array(size).fill(""));
 
+  const [board, setBoard] = useState(emptyBoard);
+  const [player, setPlayer] = useState("X");
+  const [moves, setMoves] = useState([]);
+
+  function handleOnClickCell(row, col) {
+    const tempBoard = board.map((r, i) =>
+      r.map((c, j) => {
+        if (i === row && j === col && c === "") {
+          return player; // set playter to row and col that clicked
+        }
+        return c;
+      })
+    );
+    const move = [...moves, { row, col, player }]; // to copy old move and add new move into array
+    // set
+    setMoves(move);
+    setBoard(tempBoard);
+    setPlayer(player === "X" ? "O" : "X");
+  }
+
   return (
-    <div className="boardGame">
-      {emptyBoard.map((row, i) =>
+    <div
+      className="boardGame"
+      style={{ gridTemplateColumns: `repeat(${size},1fr)` }}
+    >
+      {board.map((row, i) =>
         row.map((cell, j) => (
-          <div className="cell" key={`${i},${j}`}>
+          <div
+            onClick={() => handleOnClickCell(i, j)}
+            className="cell"
+            key={`${i},${j}`}
+          >
             {cell}
           </div>
         ))

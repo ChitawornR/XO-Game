@@ -15,4 +15,14 @@ router.post("/", async (req, res) => {
   }
 });
 
+// GET /replay => call replay from database
+router.get("/", async (req, res) => {
+  try {
+    const replays = await Replay.find().sort({ createdAt: -1 }); // to sort desc
+    res.json(replays);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch replays" });
+  }
+});
+
 module.exports = router;

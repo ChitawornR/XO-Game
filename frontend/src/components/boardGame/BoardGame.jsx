@@ -25,7 +25,7 @@ function BoardGame() {
       // if no winner and board full
       const id = setTimeout(async () => {
         alert("Draw! No winner.");
-        await sendReplayToServer(null)
+        await sendReplayToServer(null);
         resetBoard();
       }, 200);
       return () => clearTimeout(id);
@@ -40,7 +40,7 @@ function BoardGame() {
     if (!winner) return;
     const id = setTimeout(async () => {
       alert(`Winner is ${winner}`);
-      await sendReplayToServer(winner)
+      await sendReplayToServer(winner);
       resetBoard();
     }, 200);
     return () => clearTimeout(id);
@@ -61,7 +61,7 @@ function BoardGame() {
           isSinglePlayer,
         }),
       });
-      console.log('already save to database...'); // boolean
+      console.log("already save to database..."); // boolean
     } catch (error) {
       console.error("Failed to save replay:", error);
     }
@@ -211,6 +211,11 @@ function BoardGame() {
 
     if (isSinglePlayer) {
       const botMove = findBotMove(tempBoard); // return {row,col}
+      if (!botMove) {
+        // No need to call setBoard again because we already did setBoard(tempBoard) above
+        // useEffect will catch the draw case and reset the board for us
+        return;
+      }
       const botBoard = tempBoard.map((row, i) =>
         row.map((cell, j) => {
           if (i === botMove.row && j === botMove.col) {

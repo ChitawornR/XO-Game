@@ -4,7 +4,7 @@ import "./BoardGame.css";
 
 function BoardGame() {
   const location = useLocation();
-  const { isSinglePlayer, size } = location.state; // isSinglePlayer and size
+  const { isSinglePlayer, size } = location.state; // isSinglePlayer and size from homePage
 
   //  create metrix board size*size content ''
   const emptyBoard = Array(size)
@@ -24,12 +24,12 @@ function BoardGame() {
     // check row
     for(let row = 0; row < size; row++){
       for(let col = 0; col <= size-steak; col++){
-        let rowTemp = []
+        let temp = []
         for(let i = 0; i < steak; i++){
-          rowTemp.push(currentBoard[row][col+i])
+          temp.push(currentBoard[row][col+i])
         }
-        if(rowTemp.every((cell)=> (cell === rowTemp[0] && cell != ''))){
-          return rowTemp[0]
+        if(temp.every((cell)=> (cell === temp[0] && cell != ''))){
+          return temp[0]
         }
       }
     }
@@ -37,12 +37,38 @@ function BoardGame() {
     // check col
     for(let col = 0; col < size; col++){
       for(let row = 0; row <= size-steak; row++){
-        let colTemp = []
+        let temp = []
         for(let i = 0; i < steak; i++){
-          colTemp.push(currentBoard[row+i][col])
+          temp.push(currentBoard[row+i][col])
         }
-        if(colTemp.every((cell)=> (cell === colTemp[0] && cell != ''))){
-          return colTemp[0]
+        if(temp.every((cell)=> (cell === temp[0] && cell != ''))){
+          return temp[0]
+        }
+      }
+    }
+
+    // Diagonal right to left
+    for(let row = 0; row <= size - steak; row++){
+      for(let col = 0; col <= size - steak; col++){
+        let temp = []
+        for(let i = 0; i < steak; i++){
+          temp.push(currentBoard[row+i][col+i])
+        }
+        if(temp.every((cell)=>(cell == temp[0] && cell !== ''))){
+          return temp[0]
+        }
+      }
+    }
+
+    // Diagonal left to right
+    for(let row = 0; row <= size - steak; row++){
+      for(let col = size - 1; col >= size - steak; col--){
+        let temp = []
+        for(let i = 0; i < steak; i++){
+          temp.push(currentBoard[row+i][col-i])
+        }
+        if(temp.every((cell)=>(cell == temp[0] && cell !== ''))){
+          return temp[0]
         }
       }
     }

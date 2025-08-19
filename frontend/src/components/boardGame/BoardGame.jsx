@@ -5,6 +5,7 @@ import "./BoardGame.css";
 function BoardGame() {
   const location = useLocation();
   const { isSinglePlayer, size } = location.state; // isSinglePlayer and size from homePage
+  const steak = size === 3?3:4
 
   //  create metrix board size*size content ''
   const emptyBoard = Array(size)
@@ -17,7 +18,7 @@ function BoardGame() {
   const [winner, setWinner] = useState("");
 
   useEffect(() => {
-    const win = findWinner(board, size === 3 ? 3 : 4);
+    const win = findWinner(board);
     if (win) {
       setWinner(win);
     }
@@ -39,7 +40,7 @@ function BoardGame() {
     return () => clearTimeout(id);
   }, [winner]);
 
-  function findWinner(currentBoard, steak) {
+  function findWinner(currentBoard) {
     /* 
     this function is return winner 
     value is null,X or O
@@ -171,7 +172,7 @@ function BoardGame() {
       );
       move = [...move, { row:botMove.row, col:botMove.col, player:'O' }];
       console.log(move)
-      setMoves(botMove);
+      setMoves(move);
       setBoard(botBoard);
       setPlayer("X");
     }

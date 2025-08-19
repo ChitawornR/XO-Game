@@ -19,7 +19,19 @@
     font-size: calc(10px + 1vw);
 }
 
+.detailText{
+    margin-left: 15px;
+}
+
+.previousStep{
+    display: block;
+    margin-top: 20px;
+    margin-left: 15px;
+}
+
 .nextStep{
     display: block;
+    margin-top: 20px;
     margin-left: auto;
+    margin-right: 15px;
 }

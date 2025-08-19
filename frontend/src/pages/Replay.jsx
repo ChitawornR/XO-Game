@@ -11,13 +11,18 @@ function Replay() {
       .catch((err) => console.log(`Error: ${err.message}`));
   }
 
+  const handleDeleted = (id) => { 
+    // this function for rerender replays after deleted
+    setReplays((prev) => prev.filter((r) => r._id !== id));
+  };
+
   useEffect(() => {
     fetchReplays();
   }, []);
 
   return (
     replays ? (
-      replays.map((replay)=> <ReplayItem key={replay._id} replay={replay}/>)
+      replays.map((replay)=> <ReplayItem key={replay._id} replay={replay} onDeleted={handleDeleted}/>)
     ):"No replay"
   );
 }

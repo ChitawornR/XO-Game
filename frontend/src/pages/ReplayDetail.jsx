@@ -12,24 +12,42 @@ function ReplayDetail() {
   const [board, setBoard] = useState(emptyBoard);
   const [step, setStep] = useState(0);
 
-  useEffect(()=>{
-    const move = replay.moves.slice(0,step)
-    let tempBoard = [...emptyBoard]
-    
-    for(let i = 0; i < move.length; i++){
-      tempBoard = tempBoard.map((row,j)=>row.map((cell,k)=>{
-        if(move[i].row === j && move[i].col === k){
-          return move[i].player
-        }
-        return cell
-      }))
+  useEffect(() => {
+    const move = replay.moves.slice(0, step);
+    let tempBoard = [...emptyBoard];
+
+    for (let i = 0; i < move.length; i++) {
+      tempBoard = tempBoard.map((row, j) =>
+        row.map((cell, k) => {
+          if (move[i].row === j && move[i].col === k) {
+            return move[i].player;
+          }
+          return cell;
+        })
+      );
     }
 
-    setBoard(tempBoard)
-  },[step])
+    setBoard(tempBoard);
+  }, [step]);
+
+  const formattedDateTH = new Date(replay.createdAt).toLocaleString(
+    "th-TH-u-ca-gregory"
+  );
 
   return (
     <>
+      <div className="detailText">
+        <p>
+          <b>Date:</b> {formattedDateTH}
+        </p>
+        <p>
+          <b>Winner:</b> {replay.winner ? replay.winner : "Draw"}
+        </p>
+        <p>
+          <b>Mode:</b>{" "}
+          {replay.isSinglePlayer ? "Single player" : "Multi player"}
+        </p>
+      </div>
       <div style={{ overflowX: "auto" }}>
         <div
           className="boardGame"
@@ -44,6 +62,17 @@ function ReplayDetail() {
           )}
         </div>
       </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: 20,
+          fontSize: 20,
+        }}
+      >
+        <b>Step:</b> {step} / {replay.moves.length}
+      </div>
       <button
         disabled={step === 0}
         onClick={() => setStep(step - 1)}
@@ -51,7 +80,11 @@ function ReplayDetail() {
       >
         Previous step
       </button>
-      <button disabled={step === replay.moves.length} onClick={() => setStep(step + 1)} className="nextStep">
+      <button
+        disabled={step === replay.moves.length}
+        onClick={() => setStep(step + 1)}
+        className="nextStep"
+      >
         Next step
       </button>
     </>

@@ -1,7 +1,14 @@
 import React from "react";
 import "./ReplayItem.css";
+import { useNavigate } from "react-router-dom";
 
 function ReplayItem({ replay }) {
+  const navigate = useNavigate();
+
+  function handleOnClickViewDetail() {
+    navigate(`/replay/${replay._id}`, { state: replay });
+  }
+
   const formattedDateTH = new Date(replay.createdAt).toLocaleString(
     "th-TH-u-ca-gregory"
   );
@@ -24,7 +31,7 @@ function ReplayItem({ replay }) {
           <br />
         </div>
         <div className="manageBtn">
-          <button>View detail</button>
+          <button onClick={() => handleOnClickViewDetail()}>View detail</button>
           <button style={{ backgroundColor: "red", color: "white" }}>
             Delete
           </button>

@@ -31,3 +31,10 @@ button{
 button:focus{
   outline: none;
 }
+
+.btnWithIcon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}

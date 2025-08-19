@@ -73,20 +73,22 @@ function ReplayDetail() {
       >
         <b>Step:</b> {step} / {replay.moves.length}
       </div>
-      <button
-        disabled={step === 0}
-        onClick={() => setStep(step - 1)}
-        className="previousStep"
-      >
-        Previous step
-      </button>
-      <button
-        disabled={step === replay.moves.length}
-        onClick={() => setStep(step + 1)}
-        className="nextStep"
-      >
-        Next step
-      </button>
+      <div className="manageBtn">
+        <button
+          disabled={step === 0}
+          onClick={() => setStep(step - 1)}
+          className="previousStep"
+        >
+          Previous step
+        </button>
+        <button
+          disabled={step === replay.moves.length}
+          onClick={() => setStep(step + 1)}
+          className="nextStep"
+        >
+          Next step
+        </button>
+      </div>
     </>
   );
 }

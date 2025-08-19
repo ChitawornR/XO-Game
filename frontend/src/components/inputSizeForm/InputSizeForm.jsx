@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./InputSizeForm.css";
+import { FaUser,FaUserFriends } from "react-icons/fa";
 
 function InputsizeForm() {
   const navigate = useNavigate();
@@ -31,14 +32,15 @@ function InputsizeForm() {
       />
       <div className="btnBottomForm">
         <button
+        className="btnWithIcon"
           onClick={() => setIsSinglePlayer(true)}
           type="submit"
           style={{ backgroundColor: "red" }}
         >
-          Single player
+          <FaUser fontSize={15}/>Single player
         </button>
-        <button type="submit" style={{ backgroundColor: "blue" }}>
-          Multi player
+        <button className="btnWithIcon" type="submit" style={{ backgroundColor: "blue" }}>
+          <FaUserFriends fontSize={20}/> Multi player
         </button>
       </div>
     </form>

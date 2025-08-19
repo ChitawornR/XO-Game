@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import "./BoardGame.css";
+import { RiResetLeftFill } from "react-icons/ri";
 
 function BoardGame() {
   const location = useLocation();
@@ -269,7 +270,7 @@ function BoardGame() {
         </div>
       </div>
       <button onClick={() => resetBoard()} className="resetBtn">
-        Reset board
+        <RiResetLeftFill fontSize={20}/>Reset board
       </button>
     </>
   );

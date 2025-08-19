@@ -5,6 +5,7 @@ function Replay() {
 
   async function fetchReplays() {
     // this function for fetch all history 
+    // set port same as .env in backend
     await fetch("http://localhost:8081/replay")
       .then((res) => res.json())
       .then((data) => setReplays(data))

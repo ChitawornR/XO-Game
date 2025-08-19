@@ -1,6 +1,7 @@
 import React from "react";
 import "./NavBar.css";
 import { NavLink } from "react-router-dom";
+import { IoNewspaperOutline } from "react-icons/io5";
 
 function NavBar({setPopupRules}) {
 
@@ -15,7 +16,7 @@ function NavBar({setPopupRules}) {
           <NavLink to="/replay">Replay</NavLink>
         </li>
       </ul>
-      <button onClick={()=> setPopupRules(true)}>Rules</button>
+      <button onClick={()=> setPopupRules(true)} className="btnWithIcon"><IoNewspaperOutline fontSize={20}/>Rules</button>
     </div>
   );
 }

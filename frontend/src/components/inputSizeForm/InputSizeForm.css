@@ -10,6 +10,9 @@
     border-radius: 20px;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);;
 }
+.btnBottomForm{
+    display: flex;
+}
 
 .btnBottomForm button{
     margin: 10px;

@@ -1,6 +1,7 @@
 import React from "react";
 import "./ReplayItem.css";
 import { useNavigate } from "react-router-dom";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 function ReplayItem({ replay,onDeleted }) {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ function ReplayItem({ replay,onDeleted }) {
     if (!ok) return;
 
     try {
+        // set port same as the .env in backend
       const res = await fetch(`http://localhost:8081/replay/${replay._id}`, {
         method: "DELETE",
       });
@@ -48,8 +50,8 @@ function ReplayItem({ replay,onDeleted }) {
         </div>
         <div className="manageBtn">
           <button onClick={() => handleOnClickViewDetail()}>View detail</button>
-          <button onClick={handleDelete} style={{ backgroundColor: "red", color: "white" }}>
-            Delete
+          <button className="btnWithIcon" onClick={handleDelete} style={{ backgroundColor: "red", color: "white" }}>
+            <FaRegTrashAlt fontSize={17}/>
           </button>
         </div>
       </div>

@@ -210,24 +210,28 @@ function BoardGame() {
     setPlayer(player === "X" ? "O" : "X");
 
     if (isSinglePlayer) {
+      const winAfterPlayer = findWinner(tempBoard);
+      if (winAfterPlayer) return; // return if have a winner for bot not work
       const botMove = findBotMove(tempBoard); // return {row,col}
       if (!botMove) {
         // No need to call setBoard again because we already did setBoard(tempBoard) above
         // useEffect will catch the draw case and reset the board for us
         return;
       }
-      const botBoard = tempBoard.map((row, i) =>
-        row.map((cell, j) => {
-          if (i === botMove.row && j === botMove.col) {
-            return "O";
-          }
-          return cell;
-        })
-      );
-      move = [...move, { row: botMove.row, col: botMove.col, player: "O" }];
-      setMoves(move);
-      setBoard(botBoard);
-      setPlayer("X");
+      setTimeout(() => {
+        const botBoard = tempBoard.map((row, i) =>
+          row.map((cell, j) => {
+            if (i === botMove.row && j === botMove.col) {
+              return "O";
+            }
+            return cell;
+          })
+        );
+        move = [...move, { row: botMove.row, col: botMove.col, player: "O" }];
+        setMoves(move);
+        setBoard(botBoard);
+        setPlayer("X");
+      }, 300);
     }
   }
 
@@ -235,7 +239,7 @@ function BoardGame() {
     setBoard(emptyBoard);
     setMoves([]);
     setPlayer("X");
-    setWinner("");
+    setWinner(null);
   }
 
   function isBoardFull() {

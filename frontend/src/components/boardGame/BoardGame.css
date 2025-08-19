@@ -18,3 +18,9 @@
     border: 1px solid gray;
     font-size: calc(10px + 1vw);
 }
+
+.resetBtn{
+    display: block;
+    margin: 20px;
+    margin-left: auto;
+}

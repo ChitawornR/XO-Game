@@ -5,7 +5,7 @@ import "./BoardGame.css";
 function BoardGame() {
   const location = useLocation();
   const { isSinglePlayer, size } = location.state; // isSinglePlayer and size from homePage
-  const steak = size === 3?3:4
+  const steak = size === 3 ? 3 : 4;
 
   //  create metrix board size*size content ''
   const emptyBoard = Array(size)
@@ -27,15 +27,12 @@ function BoardGame() {
   useEffect(() => {
     /* 
       this useEffect create for wait board set last player to cell
-      if winner then alert message and set zero
+      if have winner then alert message and set zero
     */
     if (!winner) return;
     const id = setTimeout(() => {
       alert(`Winner is ${winner}`);
-      setBoard(emptyBoard);
-      setMoves([]);
-      setPlayer("X");
-      setWinner("");
+      resetBoard()
     }, 200);
     return () => clearTimeout(id);
   }, [winner]);
@@ -109,12 +106,12 @@ function BoardGame() {
     for (let row = 0; row < size; row++) {
       for (let col = 0; col < size; col++) {
         if (currentBoard[row][col] === "") {
-          const botBoard = currentBoard.map((r,i) =>
-            r.map((c,j) => {
+          const botBoard = currentBoard.map((r, i) =>
+            r.map((c, j) => {
               if (i === row && j === col) {
                 return "O";
               }
-              return c //cell
+              return c; //cell
             })
           );
           const botWin = findWinner(botBoard);
@@ -131,12 +128,12 @@ function BoardGame() {
     for (let row = 0; row < size; row++) {
       for (let col = 0; col < size; col++) {
         if (currentBoard[row][col] === "") {
-          const predicBoard = currentBoard.map((r,i) =>
-            r.map((c,j) => {
+          const predicBoard = currentBoard.map((r, i) =>
+            r.map((c, j) => {
               if (i === row && j === col) {
                 return "X";
               }
-              return c //cell
+              return c; //cell
             })
           );
           const playerWin = findWinner(predicBoard);
@@ -193,32 +190,42 @@ function BoardGame() {
           return cell;
         })
       );
-      move = [...move, { row:botMove.row, col:botMove.col, player:'O' }];
-      console.log(move)
+      move = [...move, { row: botMove.row, col: botMove.col, player: "O" }];
+      console.log(move);
       setMoves(move);
       setBoard(botBoard);
       setPlayer("X");
     }
   }
 
+  function resetBoard(){
+    setBoard(emptyBoard)
+    setMoves([])
+    setPlayer('X')
+    setWinner('')
+  }
+
   return (
     <>
-      <div
-        className="boardGame"
-        style={{ gridTemplateColumns: `repeat(${size},1fr)` }}
-      >
-        {board.map((row, i) =>
-          row.map((cell, j) => (
-            <div
-              onClick={() => handleOnClickCell(i, j)}
-              className="cell"
-              key={`${i},${j}`}
-            >
-              {cell}
-            </div>
-          ))
-        )}
+      <div style={{ overflowX: "auto" }}>
+        <div
+          className="boardGame"
+          style={{ gridTemplateColumns: `repeat(${size},1fr)` }}
+        >
+          {board.map((row, i) =>
+            row.map((cell, j) => (
+              <div
+                onClick={() => handleOnClickCell(i, j)}
+                className="cell"
+                key={`${i},${j}`}
+              >
+                {cell}
+              </div>
+            ))
+          )}
+        </div>
       </div>
+      <button onClick={()=>resetBoard()} className="resetBtn">Reset board</button>
     </>
   );
 }

@@ -99,6 +99,49 @@ function BoardGame() {
     return null;
   }
 
+  function findBotMove(currentBoard) {
+    /* 
+      chek if bot will win
+      logic is find '' and add 'O' 
+      if bot win return {row,col}
+    */
+    for (let row = 0; row < size; row++) {
+      for (let col = 0; col < size; col++) {
+        if (currentBoard[row][col] === "") {
+          const botBoard = currentBoard.map((r) =>
+            r.map((c) => {
+              if (r === row && c === col) {
+                return "O";
+              }
+            })
+          );
+          const botWin = findWinner(botBoard);
+          if (botWin) return { row, col };
+        }
+      }
+    }
+
+    /* 
+      logic is find all cell that ''
+      if board have cell that ''
+      return random {row,col} of cell
+    */
+    const emptyCell = [];
+    for (let row = 0; row < size; row++) {
+      for (let col = 0; col < size; col++) {
+        if (currentBoard[row][col] === "") {
+          emptyCell.push({ row, col });
+        }
+      }
+    }
+    if (emptyCell.length > 0) {
+      const index = Math.floor(Math.random() * emptyCell.length);
+      return emptyCell[index];
+    }
+
+    return null;
+  }
+
   function handleOnClickCell(row, col) {
     if (board[row][col] !== "" || winner) return;
     const tempBoard = board.map((r, i) =>
@@ -109,13 +152,29 @@ function BoardGame() {
         return c;
       })
     );
-    const move = [...moves, { row, col, player }]; // to copy old move and add new move into array
+    let move = [...moves, { row, col, player }]; // to copy old move and add new move into array
     // set
     setMoves(move);
     setBoard(tempBoard);
     setPlayer(player === "X" ? "O" : "X");
 
-
+    if (isSinglePlayer) {
+      const botMove = findBotMove(tempBoard); // return {row,col}
+      console.log(botMove);
+      const botBoard = tempBoard.map((row, i) =>
+        row.map((cell, j) => {
+          if (i === botMove.row && j === botMove.col) {
+            return "O";
+          }
+          return cell;
+        })
+      );
+      move = [...move, { row:botMove.row, col:botMove.col, player:'O' }];
+      console.log(move)
+      setMoves(botMove);
+      setBoard(botBoard);
+      setPlayer("X");
+    }
   }
 
   return (

@@ -15,7 +15,7 @@ function BoardGame() {
   const [board, setBoard] = useState(emptyBoard);
   const [player, setPlayer] = useState("X");
   const [moves, setMoves] = useState([]);
-  const [winner, setWinner] = useState("");
+  const [winner, setWinner] = useState(null);
 
   useEffect(() => {
     const win = findWinner(board);
@@ -23,8 +23,9 @@ function BoardGame() {
       setWinner(win);
     } else if (isBoardFull()) {
       // if no winner and board full
-      const id = setTimeout(() => {
+      const id = setTimeout(async () => {
         alert("Draw! No winner.");
+        await sendReplayToServer(null)
         resetBoard();
       }, 200);
       return () => clearTimeout(id);
@@ -37,12 +38,34 @@ function BoardGame() {
       if have winner then alert message and set zero
     */
     if (!winner) return;
-    const id = setTimeout(() => {
+    const id = setTimeout(async () => {
       alert(`Winner is ${winner}`);
+      await sendReplayToServer(winner)
       resetBoard();
     }, 200);
     return () => clearTimeout(id);
   }, [winner]);
+
+  async function sendReplayToServer(winner) {
+    try {
+      // set port same as .env in backend folder
+      await fetch("http://localhost:8081/replay", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          size,
+          winner,
+          moves,
+          isSinglePlayer,
+        }),
+      });
+      console.log('already save to database...'); // boolean
+    } catch (error) {
+      console.error("Failed to save replay:", error);
+    }
+  }
 
   function findWinner(currentBoard) {
     /* 
@@ -188,7 +211,6 @@ function BoardGame() {
 
     if (isSinglePlayer) {
       const botMove = findBotMove(tempBoard); // return {row,col}
-      console.log(botMove);
       const botBoard = tempBoard.map((row, i) =>
         row.map((cell, j) => {
           if (i === botMove.row && j === botMove.col) {
@@ -198,7 +220,6 @@ function BoardGame() {
         })
       );
       move = [...move, { row: botMove.row, col: botMove.col, player: "O" }];
-      console.log(move);
       setMoves(move);
       setBoard(botBoard);
       setPlayer("X");

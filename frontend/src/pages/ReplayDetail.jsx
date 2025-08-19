@@ -35,7 +35,7 @@ function ReplayDetail() {
   );
 
   return (
-    <>
+    <div className="boxContent">
       <div className="detailText">
         <p>
           <b>Date:</b> {formattedDateTH}
@@ -89,7 +89,7 @@ function ReplayDetail() {
           Next step
         </button>
       </div>
-    </>
+    </div>
   );
 }
 

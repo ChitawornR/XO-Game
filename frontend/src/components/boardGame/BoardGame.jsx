@@ -250,7 +250,7 @@ function BoardGame() {
   }
 
   return (
-    <>
+    <div className="boxContent">
       <div style={{ overflowX: "auto" }}>
         <div
           className="boardGame"
@@ -272,7 +272,7 @@ function BoardGame() {
       <button onClick={() => resetBoard()} className="resetBtn">
         <RiResetLeftFill fontSize={20}/>Reset board
       </button>
-    </>
+    </div>
   );
 }
 

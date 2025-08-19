@@ -109,15 +109,38 @@ function BoardGame() {
     for (let row = 0; row < size; row++) {
       for (let col = 0; col < size; col++) {
         if (currentBoard[row][col] === "") {
-          const botBoard = currentBoard.map((r) =>
-            r.map((c) => {
-              if (r === row && c === col) {
+          const botBoard = currentBoard.map((r,i) =>
+            r.map((c,j) => {
+              if (i === row && j === col) {
                 return "O";
               }
+              return c //cell
             })
           );
           const botWin = findWinner(botBoard);
           if (botWin) return { row, col };
+        }
+      }
+    }
+
+    /* 
+      check if player win bot will
+      return position ({rol,col})
+      and block player
+    */
+    for (let row = 0; row < size; row++) {
+      for (let col = 0; col < size; col++) {
+        if (currentBoard[row][col] === "") {
+          const predicBoard = currentBoard.map((r,i) =>
+            r.map((c,j) => {
+              if (i === row && j === col) {
+                return "X";
+              }
+              return c //cell
+            })
+          );
+          const playerWin = findWinner(predicBoard);
+          if (playerWin) return { row, col };
         }
       }
     }

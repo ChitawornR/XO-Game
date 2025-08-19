@@ -21,6 +21,13 @@ function BoardGame() {
     const win = findWinner(board);
     if (win) {
       setWinner(win);
+    } else if (isBoardFull()) {
+      // if no winner and board full
+      const id = setTimeout(() => {
+        alert("Draw! No winner.");
+        resetBoard();
+      }, 200);
+      return () => clearTimeout(id);
     }
   }, [board]);
 
@@ -32,7 +39,7 @@ function BoardGame() {
     if (!winner) return;
     const id = setTimeout(() => {
       alert(`Winner is ${winner}`);
-      resetBoard()
+      resetBoard();
     }, 200);
     return () => clearTimeout(id);
   }, [winner]);
@@ -198,11 +205,17 @@ function BoardGame() {
     }
   }
 
-  function resetBoard(){
-    setBoard(emptyBoard)
-    setMoves([])
-    setPlayer('X')
-    setWinner('')
+  function resetBoard() {
+    setBoard(emptyBoard);
+    setMoves([]);
+    setPlayer("X");
+    setWinner("");
+  }
+
+  function isBoardFull() {
+    let count = 0;
+    board.map((row) => row.map((cell) => (cell === "" ? count++ : count)));
+    return count > 0 ? false : true;
   }
 
   return (
@@ -225,7 +238,9 @@ function BoardGame() {
           )}
         </div>
       </div>
-      <button onClick={()=>resetBoard()} className="resetBtn">Reset board</button>
+      <button onClick={() => resetBoard()} className="resetBtn">
+        Reset board
+      </button>
     </>
   );
 }

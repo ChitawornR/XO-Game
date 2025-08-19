@@ -2,11 +2,12 @@ import React from "react";
 import "./NavBar.css";
 import { NavLink } from "react-router-dom";
 
-function NavBar() {
+function NavBar({setPopupRules}) {
+
   return (
     <div className="navBar">
       <h1>XO-Game</h1>
-      <ul>
+      <ul className="navUl">
         <li>
           <NavLink to="/">Home</NavLink>
         </li>
@@ -14,7 +15,7 @@ function NavBar() {
           <NavLink to="/replay">Replay</NavLink>
         </li>
       </ul>
-      <button>Rule</button>
+      <button onClick={()=> setPopupRules(true)}>Rules</button>
     </div>
   );
 }

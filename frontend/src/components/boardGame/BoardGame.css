@@ -20,7 +20,10 @@
 }
 
 .resetBtn{
-    display: block;
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
     margin: 20px;
     margin-left: auto;
 }

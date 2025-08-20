@@ -34,7 +34,7 @@ function ReplayItem({ replay,onDeleted }) {
   return (
     <div
       className="replay"
-      style={{ backgroundColor: replay.isSinglePlayer ? "pink" : "white" }}
+      style={{ backgroundColor: replay.isSinglePlayer ? "pink" : "#fff5bd" }}
     >
       <div className="replayInner">
         <div className="replayInfo">

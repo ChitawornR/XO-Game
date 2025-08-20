@@ -118,7 +118,7 @@ cd xo-game
          1. random if nothing to do
          2. if bot will win (2 in 3 of steak || 3 in 4 of steak) move for win
          3. if player will win (2 in 3 of steak || 3 in 4 of steak) move for block
-  3. ### How bot work
+  3. **How bot work**
        - The bot will find a empty cell in the board and try to choose that cell
        - if bot win, then choose that cell to win
        - if player win, choose that cell to block

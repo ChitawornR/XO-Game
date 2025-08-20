@@ -33,6 +33,14 @@ in .env file:
 MONGO_URI = mongodb://localhost:27017/XOGame
 # Port for backend server
 # If change PORT, You must change port in function fetch in frontend the same
+# location of port in frontend you need to change
+
+# components
+# boardGame.jsx => sendReplayToServer
+# ReplayItem.jsx => handleDelete
+
+# pages
+# replay.jsx => fetchReplay 
 PORT = 8081
 ```
 

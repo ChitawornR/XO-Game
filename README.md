@@ -102,5 +102,25 @@ cd xo-game
        - Open a specific game to play back moves (step).
        - DELETE unwanted entries.
   ### Win Rules & Winner Detection
-  
+  1. **Multiplayer:**
+       - When clicking on a cell on the board, there is a function to check if the clicked cell is empty or not, if not empty, the process will stop, but if it is empty, the process will continue.
+       - After that, the row and column params will be inserted into the current board.
+       - copy old move and add new move into array [{row,col,player}] for keep the move data.
+       - Switch players
+       - every round board change, useEffect will call findWinner function to chek winner
+       - findWinner function is a function to check steak in row, col, diagonal
+       - if have a winner then return player('X' of 'O'), if not, return null
+       - if data that return from findWinner function not null, then set board to empty board N×N and send data to database for show in replay page
+  2. **Singleplayer:**
+       - Multiplayer mode works mostly the same as singleplayer mode.
+       - But when clicking on a cell on the board, there will be an additional check if it is a single player mode, there will be an additional bot operation.
+       - The bot works in 3 ways.
+         1. random if nothing to do
+         2. if bot will win (2 in 3 of steak || 3 in 4 of steak) move for win
+         3. if player will win (2 in 3 of steak || 3 in 4 of steak) move for block
+  3. ### How bot work
+       - The bot will find a empty cell in the board and try to choose that cell
+       - if bot win, then choose that cell to win
+       - if player win, choose that cell to block
+       - if try to choose every cell and no winner, bot will random choose empty cell in the board 
 

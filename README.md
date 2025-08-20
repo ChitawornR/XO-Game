@@ -119,7 +119,7 @@ cd xo-game
        - if have a winner then return player('X' or 'O'), if not, return null
        - if data that return from findWinner function not null, then set board to empty board N×N and send data to database for show in replay page
   2. **Singleplayer:**
-       - Multiplayer mode works mostly the same as singleplayer mode.
+       - Singleplayer mode works mostly the same as multiplayer mode.
        - But when clicking on a cell on the board, there will be an additional check if it is a single player mode, there will be an additional bot operation.
        - The bot works in 3 ways.
          1. random if nothing to do

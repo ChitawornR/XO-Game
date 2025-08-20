@@ -6,9 +6,12 @@ import { FaUser,FaUserFriends } from "react-icons/fa";
 function InputsizeForm() {
   const navigate = useNavigate();
   const [isSinglePlayer, setIsSinglePlayer] = useState(false);
-  const [size, setSize] = useState(0);
+  
+  // set default to null because if default is number 0 placeholder not show
+  const [size, setSize] = useState(null); 
 
   function handleSubmit(e) {
+    if(typeof size != Number) return // this fuction not work if size != number
     e.preventDefault();
     const state = {
       isSinglePlayer,

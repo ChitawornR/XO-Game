@@ -17,6 +17,7 @@ function BoardGame() {
   const [player, setPlayer] = useState("X");
   const [moves, setMoves] = useState([]);
   const [winner, setWinner] = useState(null);
+  const [botThinking,setBotThinking] = useState(false)
 
   useEffect(() => {
     const win = findWinner(board);
@@ -195,7 +196,7 @@ function BoardGame() {
   }
 
   function handleOnClickCell(row, col) {
-    if (board[row][col] !== "" || winner) return;
+    if (board[row][col] !== "" || winner || botThinking) return;
     const tempBoard = board.map((r, i) =>
       r.map((c, j) => {
         if (i === row && j === col) {
@@ -211,6 +212,7 @@ function BoardGame() {
     setPlayer(player === "X" ? "O" : "X");
 
     if (isSinglePlayer) {
+      setBotThinking(true)
       const winAfterPlayer = findWinner(tempBoard);
       if (winAfterPlayer) return; // return if have a winner for bot not work
       const botMove = findBotMove(tempBoard); // return {row,col}
@@ -232,6 +234,7 @@ function BoardGame() {
         setMoves(move);
         setBoard(botBoard);
         setPlayer("X");
+        setBotThinking(false) // bot thniking done and player can click cell
       }, 300);
     }
   }

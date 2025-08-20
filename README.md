@@ -57,7 +57,7 @@ cd xo-game
   ```
   3. Start the frontend:
   ```bash
-  npm dev
+  npm run dev
   ```
   ### Backend
   1. Open a new terminal and navigate to the backend directory:

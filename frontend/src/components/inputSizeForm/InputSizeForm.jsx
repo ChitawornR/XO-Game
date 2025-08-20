@@ -7,10 +7,11 @@ function InputsizeForm() {
   const navigate = useNavigate();
   const [isSinglePlayer, setIsSinglePlayer] = useState(false);
 
-  // set default to string because if default is number 0 placeholder not show
+  // set default to null because if default is number 0 placeholder not show
   const [size, setSize] = useState(null); 
 
   function handleSubmit(e) {
+    // if size = null or less than 3 stop working
     if(!size || size < 3) {
       alert('size must not null and more than 3')
       return

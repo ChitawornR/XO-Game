@@ -109,7 +109,7 @@ cd xo-game
        - Switch players
        - every round board change, useEffect will call findWinner function to chek winner
        - findWinner function is a function to check steak in row, col, diagonal
-       - if have a winner then return player('X' of 'O'), if not, return null
+       - if have a winner then return player('X' or 'O'), if not, return null
        - if data that return from findWinner function not null, then set board to empty board N×N and send data to database for show in replay page
   2. **Singleplayer:**
        - Multiplayer mode works mostly the same as singleplayer mode.

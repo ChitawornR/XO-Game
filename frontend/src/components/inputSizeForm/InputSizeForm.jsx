@@ -6,12 +6,15 @@ import { FaUser,FaUserFriends } from "react-icons/fa";
 function InputsizeForm() {
   const navigate = useNavigate();
   const [isSinglePlayer, setIsSinglePlayer] = useState(false);
-  
-  // set default to null because if default is number 0 placeholder not show
+
+  // set default to string because if default is number 0 placeholder not show
   const [size, setSize] = useState(null); 
 
   function handleSubmit(e) {
-    if(typeof size != Number) return // this fuction not work if size != number
+    if(!size || size < 3) {
+      alert('size must not null and more than 3')
+      return
+    } 
     e.preventDefault();
     const state = {
       isSinglePlayer,
@@ -30,7 +33,7 @@ function InputsizeForm() {
         id="inputSize"
         value={size}
         onChange={(e) => {
-          setSize(Number(e.target.value));
+          setSize(parseInt(e.target.value));
         }}
       />
       <div className="btnBottomForm">

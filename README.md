@@ -11,7 +11,7 @@
 - **Node.js ≥ 18 (LTS)** and **npm ≥ 10** (or yarn/pnpm)
     - Check versions: `node -v` / `npm -v`
 - **MongoDB Compass** (Recommended for browsing the DB)
-    - [Download MongoDB Compass](https://www.mongodb.com/try/download/compass)
+    - [Download MongoDB Compass(GUI)](https://www.mongodb.com/try/download/compass)
 - **Git** (to clone the project)
 - **Modern browser** (Chrome/Edge/Firefox)
 

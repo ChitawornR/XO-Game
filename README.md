@@ -8,9 +8,10 @@
 
 ## Requirements
 
-- **Node.js ≥ 18 (LTS)** and **npm ≥ 10** (or yarn/pnpm)  
-  Check versions: `node -v` / `npm -v`
+- **Node.js ≥ 18 (LTS)** and **npm ≥ 10** (or yarn/pnpm)
+    - Check versions: `node -v` / `npm -v`
 - **MongoDB Compass** (Recommended for browsing the DB)
+    - [Download MongoDB Compass](https://www.mongodb.com/try/download/compass)
 - **Git** (to clone the project)
 - **Modern browser** (Chrome/Edge/Firefox)
 

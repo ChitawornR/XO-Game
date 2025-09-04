@@ -21,7 +21,6 @@ function App() {
           <Route path="/replay" element={<Replay />} />
           <Route path="/replay/:id" element={<ReplayDetail />} />
         </Routes>
-
         {/* popup rules */}
         <Popup popupRules={popupRules} setPopupRules={setPopupRules}/>
       </div>

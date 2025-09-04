@@ -100,7 +100,7 @@ function BoardGame() {
       }
     }
 
-    // Diagonal right to left
+    // Diagonal left to right
     for (let row = 0; row <= size - steak; row++) {
       for (let col = 0; col <= size - steak; col++) {
         let temp = [];
@@ -113,7 +113,7 @@ function BoardGame() {
       }
     }
 
-    // Diagonal left to right
+    // Diagonal right to left
     for (let row = 0; row <= size - steak; row++) {
       for (let col = size - 1; col >= size - steak; col--) {
         let temp = [];

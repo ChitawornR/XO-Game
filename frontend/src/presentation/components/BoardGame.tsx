@@ -9,6 +9,7 @@ import '../styles/BoardGame.css'
 type LocationState = {
   isSinglePlayer: boolean
   size: number
+  difficulty?: 'easy' | 'hard'
 }
 
 /**
@@ -17,11 +18,12 @@ type LocationState = {
  */
 function BoardGame() {
   const location = useLocation()
-  const { isSinglePlayer, size } = location.state as LocationState
+  const { isSinglePlayer, size, difficulty } = location.state as LocationState
 
   const { state, placeCell, reset, dismissNotification, persistReplay } = useGame(
     size,
     isSinglePlayer,
+    difficulty ?? 'easy',
   )
   const api = useContext(ReplayApiContext)
 

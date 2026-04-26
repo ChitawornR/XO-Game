@@ -1,26 +1,29 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FaUser, FaUserFriends } from 'react-icons/fa'
+import type { Difficulty } from '../../domain/services/bots'
 import '../styles/InputSizeForm.css'
 
 function InputSizeForm() {
   const navigate = useNavigate()
-  const [isSinglePlayer, setIsSinglePlayer] = useState(false)
   const [size, setSize] = useState<number | null>(null)
+  const [difficulty, setDifficulty] = useState<Difficulty>('easy')
   const [error, setError] = useState<string | null>(null)
 
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    if (!size || size < 3) {
-      setError('Board size must be at least 3.')
-      return
+  function start(isSinglePlayer: boolean) {
+    return (e: React.FormEvent) => {
+      e.preventDefault()
+      if (!size || size < 3) {
+        setError('Board size must be at least 3.')
+        return
+      }
+      setError(null)
+      navigate('/play', { state: { isSinglePlayer, size, difficulty } })
     }
-    setError(null)
-    navigate('/play', { state: { isSinglePlayer, size } })
   }
 
   return (
-    <form onSubmit={handleSubmit} className="inputSizeForm">
+    <form className="inputSizeForm" onSubmit={(e) => e.preventDefault()}>
       <label htmlFor="inputSize">Input board size</label>
       <input
         placeholder="Ex: 3 or 5"
@@ -28,22 +31,48 @@ function InputSizeForm() {
         type="number"
         id="inputSize"
         value={size ?? ''}
-        onChange={(e) => setSize(e.target.value === '' ? null : parseInt(e.target.value, 10))}
+        onChange={(e) =>
+          setSize(e.target.value === '' ? null : parseInt(e.target.value, 10))
+        }
       />
+
+      <label className="difficultyLabel">Bot difficulty (single-player only)</label>
+      <div className="difficultyGroup" role="radiogroup" aria-label="Bot difficulty">
+        <button
+          type="button"
+          role="radio"
+          aria-checked={difficulty === 'easy'}
+          className={difficulty === 'easy' ? 'difficultyChip active' : 'difficultyChip'}
+          onClick={() => setDifficulty('easy')}
+        >
+          Easy
+        </button>
+        <button
+          type="button"
+          role="radio"
+          aria-checked={difficulty === 'hard'}
+          className={difficulty === 'hard' ? 'difficultyChip active' : 'difficultyChip'}
+          onClick={() => setDifficulty('hard')}
+        >
+          Hard
+        </button>
+      </div>
+
       {error && <p className="formError">{error}</p>}
+
       <div className="btnBottomForm">
         <button
+          type="button"
           className="btnWithIcon singlePlayer"
-          onClick={() => setIsSinglePlayer(true)}
-          type="submit"
+          onClick={start(true)}
         >
           <FaUser fontSize={14} />
           Single player
         </button>
         <button
+          type="button"
           className="btnWithIcon multiPlayer"
-          onClick={() => setIsSinglePlayer(false)}
-          type="submit"
+          onClick={start(false)}
         >
           <FaUserFriends fontSize={18} />
           Multi player

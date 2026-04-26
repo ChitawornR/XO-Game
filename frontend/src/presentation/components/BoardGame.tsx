@@ -1,0 +1,74 @@
+import { useContext, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
+import { RiResetLeftFill } from 'react-icons/ri'
+import { useGame } from '../../application/hooks/useGame'
+import { GameResultPopup } from './Popup'
+import { ReplayApiContext } from '../../main'
+import '../styles/BoardGame.css'
+
+type LocationState = {
+  isSinglePlayer: boolean
+  size: number
+}
+
+/**
+ * BoardGame — thin UI component.
+ * All game logic lives in useGame (application layer).
+ */
+function BoardGame() {
+  const location = useLocation()
+  const { isSinglePlayer, size } = location.state as LocationState
+
+  const { state, placeCell, reset, dismissNotification, persistReplay } = useGame(
+    size,
+    isSinglePlayer,
+  )
+  const api = useContext(ReplayApiContext)
+
+  // Persist replay to server whenever the game ends
+  useEffect(() => {
+    if (state.status !== 'playing' && api) {
+      persistReplay(api).catch((err: unknown) =>
+        console.error('Failed to save replay:', err),
+      )
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.status])
+
+  function handleDismiss() {
+    dismissNotification()
+    reset()
+  }
+
+  return (
+    <div className="boxContent">
+      <GameResultPopup notification={state.notification} onClose={handleDismiss} />
+
+      <div style={{ overflowX: 'auto' }}>
+        <div
+          className="boardGame"
+          style={{ gridTemplateColumns: `repeat(${size}, 1fr)` }}
+        >
+          {state.board.map((row, i) =>
+            row.map((cell, j) => (
+              <div
+                onClick={() => placeCell(i, j)}
+                className="cell"
+                key={`${i},${j}`}
+              >
+                {cell}
+              </div>
+            )),
+          )}
+        </div>
+      </div>
+
+      <button onClick={reset} className="resetBtn">
+        <RiResetLeftFill fontSize={20} />
+        Reset board
+      </button>
+    </div>
+  )
+}
+
+export default BoardGame

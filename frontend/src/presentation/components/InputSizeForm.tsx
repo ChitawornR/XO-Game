@@ -30,24 +30,22 @@ function InputSizeForm() {
         value={size ?? ''}
         onChange={(e) => setSize(e.target.value === '' ? null : parseInt(e.target.value, 10))}
       />
-      {error && <p style={{ color: 'red', marginBottom: 8 }}>{error}</p>}
+      {error && <p className="formError">{error}</p>}
       <div className="btnBottomForm">
         <button
-          className="btnWithIcon"
+          className="btnWithIcon singlePlayer"
           onClick={() => setIsSinglePlayer(true)}
           type="submit"
-          style={{ backgroundColor: 'red' }}
         >
-          <FaUser fontSize={15} />
+          <FaUser fontSize={14} />
           Single player
         </button>
         <button
-          className="btnWithIcon"
+          className="btnWithIcon multiPlayer"
           onClick={() => setIsSinglePlayer(false)}
           type="submit"
-          style={{ backgroundColor: 'blue' }}
         >
-          <FaUserFriends fontSize={20} />
+          <FaUserFriends fontSize={18} />
           Multi player
         </button>
       </div>

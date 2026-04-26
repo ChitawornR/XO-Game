@@ -1,26 +1,108 @@
+.replayList {
+    max-width: 800px;
+    margin: 32px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.replayEmpty {
+    text-align: center;
+    margin-top: 64px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 15px;
+}
+
 .replay {
-  width: 100%;
-  max-width: 800px;
-  margin: 15px auto;
-  border-radius: 30px;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
-  padding: 30px;
+    width: 100%;
+    background: var(--bg-glass);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    padding: 22px 26px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s ease, transform 0.15s ease;
+}
+
+.replay:hover {
+    border-color: var(--accent-x);
+    transform: translateY(-2px);
+}
+
+.replay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 3px;
+}
+
+.replay.single::before {
+    background: linear-gradient(180deg, var(--accent-o), transparent);
+}
+
+.replay.multi::before {
+    background: linear-gradient(180deg, var(--accent-x), transparent);
 }
 
 .replayInner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.replayInfo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 6px 24px;
+    flex: 1;
+    font-size: 14px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+}
+
+.replayInfo span.label {
+    color: var(--text-dim);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.replayInfo span.value {
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.replay.single .modeBadge {
+    color: var(--accent-o);
+}
+
+.replay.multi .modeBadge {
+    color: var(--accent-x);
 }
 
 .manageBtn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: auto;
+    display: flex;
+    gap: 10px;
 }
 
-.manageBtn button {
-  margin-left: 10px;
-  margin-right: 10px;
+.manageBtn .delete {
+    background: rgba(248, 113, 113, 0.1);
+    border-color: rgba(248, 113, 113, 0.32);
+    color: var(--accent-danger);
+}
+
+.manageBtn .delete:hover:not(:disabled) {
+    background: rgba(248, 113, 113, 0.18);
+    border-color: var(--accent-danger);
+    box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.18);
 }

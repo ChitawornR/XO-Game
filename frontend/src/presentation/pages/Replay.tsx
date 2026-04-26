@@ -30,43 +30,60 @@ function Replay() {
     }
   }
 
-  if (replays.length === 0) return <p style={{ textAlign: 'center', marginTop: 40 }}>No replays yet.</p>
+  if (replays.length === 0)
+    return <p className="replayEmpty">// no replays yet</p>
 
   return (
-    <>
+    <div className="replayList">
       {replays.map((replay) => {
         const date = new Date(replay.createdAt).toLocaleString('th-TH-u-ca-gregory')
+        const modeClass = replay.isSinglePlayer ? 'single' : 'multi'
         return (
-          <div
-            key={replay._id}
-            className="replay"
-            style={{ backgroundColor: replay.isSinglePlayer ? 'pink' : '#fff5bd' }}
-          >
+          <div key={replay._id} className={`replay ${modeClass}`}>
             <div className="replayInner">
               <div className="replayInfo">
-                <b>Date: </b> {date} <br />
-                <b>Winner: </b> {replay.winner ?? 'Draw'} <br />
-                <b>Board Size: </b> {replay.size} <br />
-                <b>Steps: </b> {replay.moves.length} <br />
-                <b>Mode: </b> {replay.isSinglePlayer ? 'Single player' : 'Multi player'}
+                <div>
+                  <span className="label">Date</span>
+                  <span className="value">{date}</span>
+                </div>
+                <div>
+                  <span className="label">Winner</span>
+                  <span className="value">{replay.winner ?? 'Draw'}</span>
+                </div>
+                <div>
+                  <span className="label">Board size</span>
+                  <span className="value">
+                    {replay.size}×{replay.size}
+                  </span>
+                </div>
+                <div>
+                  <span className="label">Steps</span>
+                  <span className="value">{replay.moves.length}</span>
+                </div>
+                <div>
+                  <span className="label">Mode</span>
+                  <span className="value modeBadge">
+                    {replay.isSinglePlayer ? 'Single player' : 'Multi player'}
+                  </span>
+                </div>
               </div>
               <div className="manageBtn">
                 <button onClick={() => navigate(`/replay/${replay._id}`, { state: replay })}>
                   View detail
                 </button>
                 <button
-                  className="btnWithIcon"
+                  className="btnWithIcon delete"
                   onClick={() => handleDelete(replay._id)}
-                  style={{ backgroundColor: 'red', color: 'white' }}
+                  aria-label="Delete replay"
                 >
-                  <FaRegTrashAlt fontSize={17} />
+                  <FaRegTrashAlt fontSize={15} />
                 </button>
               </div>
             </div>
           </div>
         )
       })}
-    </>
+    </div>
   )
 }
 

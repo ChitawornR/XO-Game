@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FaRegTrashAlt } from 'react-icons/fa'
 import type { ReplayRecord } from '../../application/ports/ReplayApi'
+import { loadReplays } from '../../application/use-cases/LoadReplays'
 import { ReplayApiContext } from '../../main'
 import '../styles/Replay.css'
 
@@ -12,8 +13,7 @@ function Replay() {
 
   useEffect(() => {
     if (!api) return
-    api
-      .list()
+    loadReplays(api)
       .then(setReplays)
       .catch((err: unknown) => console.error('Failed to load replays:', err))
   }, [api])

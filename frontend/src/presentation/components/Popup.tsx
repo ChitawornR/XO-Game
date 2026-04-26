@@ -14,11 +14,7 @@ export function RulesPopup({ open, onClose }: RulesPopupProps) {
   return (
     <div className="popup">
       <div className="popupInner">
-        <button
-          style={{ backgroundColor: 'red', color: 'white' }}
-          className="closeBtn"
-          onClick={onClose}
-        >
+        <button className="closeBtn" onClick={onClose}>
           Close
         </button>
         <h2>Rules</h2>
@@ -83,9 +79,9 @@ export function GameResultPopup({ notification, onClose }: GameResultPopupProps)
 
   return (
     <div className="popup">
-      <div className="popupInner" style={{ textAlign: 'center' }}>
-        <h2 style={{ marginBottom: 20 }}>{message}</h2>
-        <button onClick={onClose} style={{ backgroundColor: '#4caf50', color: 'white' }}>
+      <div className="popupInner popupResult">
+        <h2>{message}</h2>
+        <button onClick={onClose} className="playAgain">
           Play again
         </button>
       </div>

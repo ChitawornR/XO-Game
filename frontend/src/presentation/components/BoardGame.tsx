@@ -44,29 +44,32 @@ function BoardGame() {
     <div className="boxContent">
       <GameResultPopup notification={state.notification} onClose={handleDismiss} />
 
-      <div style={{ overflowX: 'auto' }}>
+      <div className="boardGameWrap" style={{ overflowX: 'auto' }}>
         <div
           className="boardGame"
           style={{ gridTemplateColumns: `repeat(${size}, 1fr)` }}
         >
           {state.board.map((row, i) =>
-            row.map((cell, j) => (
-              <div
-                onClick={() => placeCell(i, j)}
-                className="cell"
-                key={`${i},${j}`}
-              >
-                {cell}
-              </div>
-            )),
+            row.map((cell, j) => {
+              const cls = cell === 'X' ? 'cell x' : cell === 'O' ? 'cell o' : 'cell'
+              return (
+                <div
+                  onClick={() => placeCell(i, j)}
+                  className={cls}
+                  key={`${i},${j}`}
+                >
+                  {cell}
+                </div>
+              )
+            }),
           )}
         </div>
-      </div>
 
-      <button onClick={reset} className="resetBtn">
-        <RiResetLeftFill fontSize={20} />
-        Reset board
-      </button>
+        <button onClick={reset} className="resetBtn">
+          <RiResetLeftFill fontSize={18} />
+          Reset board
+        </button>
+      </div>
     </div>
   )
 }

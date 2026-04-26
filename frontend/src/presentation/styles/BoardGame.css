@@ -1,29 +1,99 @@
-.boardGame{
+.boardGame {
     display: grid;
-    gap: 3px;
-    margin-top: 20px;
-    margin-left: auto;
-    margin-right: auto;
+    gap: 6px;
+    padding: 18px;
+    margin: 24px auto;
     width: fit-content;
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-soft);
 }
 
-.cell{
-    aspect-ratio: 1/1;
+.cell {
+    aspect-ratio: 1 / 1;
+    width: clamp(46px, 6vw, 64px);
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: antiquewhite;
+    background: var(--bg-elev-2);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: clamp(20px, 2.4vw, 30px);
+    font-weight: 700;
     cursor: pointer;
-    width: 50px;
-    border: 1px solid gray;
-    font-size: calc(10px + 1vw);
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.12s ease, border-color 0.12s ease, transform 0.08s ease;
 }
 
-.resetBtn{
-    display: flex;
-    gap: 5px;
-    justify-content: center;
+.cell:focus,
+.cell:focus-visible {
+    outline: none;
+}
+
+.cell:hover {
+    background: rgba(34, 211, 238, 0.08);
+    border-color: var(--accent-x);
+}
+
+.cell:active {
+    transform: scale(0.96);
+}
+
+/* Cell content X / O styling */
+.cell:has(> :not(:empty)),
+.cell:not(:empty) {
+    cursor: default;
+}
+
+/* X uses cyan, O uses pink — render via CSS so we don't touch the DOM */
+.cell {
+    text-shadow: 0 0 12px transparent;
+}
+
+.cell:not(:empty)[data-cell='X'],
+.cell {
+    /* Default: handled by attribute */
+}
+
+/* Use :is for both content based and attribute based */
+.cell {
+    /* fallback color when content is just "X" or "O" text node */
+}
+
+/* Color X cells using attribute selector — set via component */
+.cell.x {
+    color: var(--accent-x);
+    text-shadow: 0 0 12px var(--accent-x-glow);
+    border-color: rgba(34, 211, 238, 0.35);
+}
+
+.cell.o {
+    color: var(--accent-o);
+    text-shadow: 0 0 12px var(--accent-o-glow);
+    border-color: rgba(244, 114, 182, 0.35);
+}
+
+.resetBtn {
+    display: inline-flex;
     align-items: center;
-    margin: 20px;
-    margin-left: auto;
+    gap: 8px;
+    padding: 10px 18px;
+    margin: 16px auto 0;
+    background: var(--btn-secondary-bg);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.boardGameWrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

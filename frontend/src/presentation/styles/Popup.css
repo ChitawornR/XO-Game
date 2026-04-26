@@ -1,4 +1,4 @@
-.popup{
+.popup {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,20 +7,114 @@
     position: fixed;
     top: 0;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.2);
+    padding: 24px;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 100;
+    animation: popupFadeIn 0.18s ease-out;
 }
 
-.popupInner{
+@keyframes popupFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.popupInner {
     position: relative;
     width: 100%;
-    padding: 35px;
-    max-width: 640px;
-    background-color: white;
-    border-radius: 20px;
+    max-width: 560px;
+    padding: 32px;
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    color: var(--text-primary);
+    animation: popupSlideUp 0.2s ease-out;
 }
 
-.popupInner .closeBtn{
+@keyframes popupSlideUp {
+    from {
+        transform: translateY(8px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.popupInner h2 {
+    margin: 0 0 16px;
+    font-family: var(--font-mono);
+    font-size: 20px;
+    background: linear-gradient(135deg, var(--accent-x) 0%, var(--accent-o) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.popupInner p,
+.popupInner li {
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+.popupInner ol,
+.popupInner ul {
+    padding-left: 20px;
+}
+
+.popupInner strong {
+    color: var(--text-primary);
+}
+
+.popupInner em {
+    color: var(--accent-x);
+    font-style: normal;
+}
+
+.popupInner .closeBtn {
     position: absolute;
-    top: 15px;
-    right: 15px;
+    top: 14px;
+    right: 14px;
+    padding: 6px 12px;
+    background: rgba(248, 113, 113, 0.12);
+    border: 1px solid rgba(248, 113, 113, 0.3);
+    color: var(--accent-danger);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+}
+
+.popupInner .closeBtn:hover {
+    background: rgba(248, 113, 113, 0.2);
+    border-color: var(--accent-danger);
+    box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.18);
+}
+
+/* Game-result popup */
+
+.popupResult {
+    text-align: center;
+}
+
+.popupResult h2 {
+    font-size: 28px;
+    margin-bottom: 24px;
+}
+
+.popupResult button.playAgain {
+    background: var(--btn-primary-bg);
+    border-color: transparent;
+    color: var(--btn-primary-text);
+    font-weight: 600;
+    padding: 12px 28px;
+}
+
+.popupResult button.playAgain:hover {
+    box-shadow: var(--shadow-glow-x);
 }

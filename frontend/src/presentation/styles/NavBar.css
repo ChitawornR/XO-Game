@@ -1,56 +1,72 @@
 .navBar {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 10%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 32px;
+    margin: 0 auto 16px;
+    max-width: 1200px;
+    border-bottom: 1px solid var(--border-soft);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(11, 15, 23, 0.7);
+}
+
+.navBar h1 {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    background: linear-gradient(135deg, var(--accent-x) 0%, var(--accent-o) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.navBar h1::before {
+    content: '> ';
+    color: var(--accent-success);
+    -webkit-text-fill-color: var(--accent-success);
 }
 
 ul.navUl {
-  list-style: none;
-  padding: 20px 30px;
-  border-radius: 30px;
-  box-shadow: 0 0 20px 0 rgba(0,0,0,.1);
+    list-style: none;
+    margin: 0;
+    padding: 6px 8px;
+    display: flex;
+    gap: 4px;
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border-soft);
+    border-radius: 999px;
+    box-shadow: var(--shadow-soft);
 }
 
-ul li {
-  display: inline-block;
+ul.navUl li {
+    display: inline-block;
 }
 
-ul li a {
-  display: inline-block;
-  padding: 0 10px;
-  margin: 0 10px;
-  color: black;
-  font-size: 20px;
-  position: relative;
-  transition: color 0.3s;
+ul.navUl li a {
+    display: inline-block;
+    padding: 8px 18px;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 999px;
+    transition: color 0.2s ease, background 0.2s ease;
+    position: relative;
 }
 
-/* underline */
-ul li a::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -5px;
-  width: 100%;
-  height: 2px;
-  background: black;
-  opacity: 0;
-  transition: opacity 0.3s;
-  pointer-events: none;
+ul.navUl li a:hover,
+ul.navUl li a:focus {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.04);
 }
 
-/* text color to red when active */
-ul li a:hover,
-ul li a:focus,
-ul li a.active {
-  color: red;
-}
-
-/* underline when active */
-ul li a:hover::before,
-ul li a:focus::before,
-ul li a.active::before {
-  opacity: 1;
+ul.navUl li a.active {
+    color: var(--btn-primary-text);
+    background: var(--btn-primary-bg);
+    font-weight: 600;
 }

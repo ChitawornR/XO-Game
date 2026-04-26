@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import type { ReplayRecord } from '../../application/ports/ReplayApi'
 import type { Board } from '../../domain/entities/Board'
-import { createEmptyBoard } from '../../domain/services/boardOps'
-import { placeMove } from '../../domain/services/boardOps'
+import { createEmptyBoard, placeMove } from '../../domain/services/boardOps'
 import '../styles/ReplayDetail.css'
+import '../styles/BoardGame.css'
 
 function ReplayDetail() {
   const location = useLocation()
@@ -25,60 +25,54 @@ function ReplayDetail() {
   const formattedDate = new Date(replay.createdAt).toLocaleString('th-TH-u-ca-gregory')
 
   return (
-    <div className="boxContent">
+    <div className="replayDetail">
       <div className="detailText">
         <p>
-          <b>Date:</b> {formattedDate}
+          <b>Date</b>
+          <span>{formattedDate}</span>
         </p>
         <p>
-          <b>Winner:</b> {replay.winner ?? 'Draw'}
+          <b>Winner</b>
+          <span>{replay.winner ?? 'Draw'}</span>
         </p>
         <p>
-          <b>Mode:</b> {replay.isSinglePlayer ? 'Single player' : 'Multi player'}
+          <b>Mode</b>
+          <span>{replay.isSinglePlayer ? 'Single player' : 'Multi player'}</span>
         </p>
       </div>
 
-      <div style={{ overflowX: 'auto' }}>
+      <div className="boardGameWrap" style={{ overflowX: 'auto' }}>
         <div
           className="boardGame"
           style={{ gridTemplateColumns: `repeat(${replay.size}, 1fr)` }}
         >
           {board.map((row, i) =>
-            row.map((cell, j) => (
-              <div className="cell" key={`${i},${j}`}>
-                {cell}
-              </div>
-            )),
+            row.map((cell, j) => {
+              const cls = cell === 'X' ? 'cell x' : cell === 'O' ? 'cell o' : 'cell'
+              return (
+                <div className={cls} key={`${i},${j}`}>
+                  {cell}
+                </div>
+              )
+            }),
           )}
         </div>
       </div>
 
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginTop: 20,
-          fontSize: 20,
-        }}
-      >
-        <b>Step:</b>&nbsp;{step} / {replay.moves.length}
+      <div className="stepIndicator">
+        <b>Step</b>
+        <span className="stepNum">{step}</span> / {replay.moves.length}
       </div>
 
-      <div className="manageBtn">
-        <button
-          disabled={step === 0}
-          onClick={() => setStep((s) => s - 1)}
-          className="previousStep"
-        >
-          Previous step
+      <div className="stepNav">
+        <button disabled={step === 0} onClick={() => setStep((s) => s - 1)}>
+          ← Previous step
         </button>
         <button
           disabled={step === replay.moves.length}
           onClick={() => setStep((s) => s + 1)}
-          className="nextStep"
         >
-          Next step
+          Next step →
         </button>
       </div>
     </div>

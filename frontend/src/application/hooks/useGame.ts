@@ -1,4 +1,4 @@
-import { useReducer, useCallback } from 'react'
+import { useReducer, useCallback, useRef } from 'react'
 import type { GameState, GameStatus } from '../../domain/entities/GameState'
 import type { Player } from '../../domain/entities/Player'
 import type { ReplayApi } from '../ports/ReplayApi'
@@ -6,7 +6,8 @@ import { createEmptyBoard } from '../../domain/services/boardOps'
 import { streakFor } from '../../domain/rules/streak'
 import { playMove } from '../use-cases/PlayMove'
 import { saveReplay } from '../use-cases/SaveReplay'
-import { GreedyBot } from '../../domain/services/bots/GreedyBot'
+import type { BotStrategy } from '../../domain/services/bots/BotStrategy'
+import { makeBot, type Difficulty } from '../../domain/services/bots'
 
 // ---------------------------------------------------------------------------
 // State
@@ -22,15 +23,13 @@ type State = GameState & {
 // ---------------------------------------------------------------------------
 
 type Action =
-  | { type: 'PLACE'; row: number; col: number }
+  | { type: 'PLACE'; row: number; col: number; bot: BotStrategy | null }
   | { type: 'DISMISS_NOTIFICATION' }
   | { type: 'RESET' }
 
 // ---------------------------------------------------------------------------
 // Reducer
 // ---------------------------------------------------------------------------
-
-const bot = new GreedyBot()
 
 function buildInitialState(size: number, isSinglePlayer: boolean): State {
   const streak = streakFor(size)
@@ -87,8 +86,8 @@ function reducer(state: State, action: Action): State {
       const nextPlayer: Player = state.currentPlayer === 'X' ? 'O' : 'X'
 
       // --- Bot move (single-player, bot is always 'O') ---
-      if (state.isSinglePlayer && nextPlayer === 'O') {
-        const botMoveCoord = bot.decide(playerResult.board, state.streak, 'O')
+      if (state.isSinglePlayer && nextPlayer === 'O' && action.bot) {
+        const botMoveCoord = action.bot.decide(playerResult.board, state.streak, 'O')
         if (!botMoveCoord) {
           // Board full after player move (draw)
           return {
@@ -171,15 +170,26 @@ export type UseGameReturn = {
   persistReplay: (api: ReplayApi) => Promise<void>
 }
 
-export function useGame(size: number, isSinglePlayer: boolean): UseGameReturn {
+export function useGame(
+  size: number,
+  isSinglePlayer: boolean,
+  difficulty: Difficulty = 'easy',
+): UseGameReturn {
   const [state, dispatch] = useReducer(
     reducer,
     undefined,
     () => buildInitialState(size, isSinglePlayer),
   )
 
+  // Stable bot instance for the lifetime of this game session.
+  const botRef = useRef<BotStrategy | null>(null)
+  if (botRef.current === null && isSinglePlayer) {
+    botRef.current = makeBot(difficulty)
+  }
+
   const placeCell = useCallback(
-    (row: number, col: number) => dispatch({ type: 'PLACE', row, col }),
+    (row: number, col: number) =>
+      dispatch({ type: 'PLACE', row, col, bot: botRef.current }),
     [],
   )
 

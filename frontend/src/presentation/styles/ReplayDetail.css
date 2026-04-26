@@ -1,40 +1,77 @@
-.boardGame{
-    display: grid;
-    gap: 3px;
-    margin-top: 20px;
-    margin-left: auto;
-    margin-right: auto;
-    width: fit-content;
-}
-
-.cell{
-    aspect-ratio: 1/1;
+.replayDetail {
+    max-width: 800px;
+    margin: 32px auto;
+    padding: 28px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    gap: 18px;
+    background: var(--bg-glass);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.detailText {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-soft);
+    font-family: var(--font-mono);
+    font-size: 14px;
+}
+
+.detailText p {
+    margin: 0;
+    color: var(--text-muted);
+}
+
+.detailText p b {
+    display: block;
+    font-size: 11px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.detailText p span {
+    color: var(--text-primary);
+}
+
+.stepIndicator {
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 18px;
+    color: var(--text-muted);
+    margin-top: 8px;
+}
+
+.stepIndicator b {
+    color: var(--accent-x);
+    margin-right: 6px;
+}
+
+.stepIndicator .stepNum {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.stepNav {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    background-color: antiquewhite;
-    cursor: pointer;
-    width: 50px;
-    border: 1px solid gray;
-    font-size: calc(10px + 1vw);
-    user-select: none;
-    -webkit-user-select: none;
-    -webkit-tap-highlight-color: transparent;
+    gap: 12px;
 }
 
-.detailText{
-    margin-left: 15px;
+.stepNav button {
+    flex: 1;
+    justify-content: center;
+    padding: 12px 18px;
 }
 
-.previousStep{
-    display: block;
-    margin-top: 20px;
-    margin-left: 15px;
-}
-
-.nextStep{
-    display: block;
-    margin-top: 20px;
-    margin-left: auto;
-    margin-right: 15px;
-}
+/* Reuse .cell from BoardGame.css; but boards in detail need slightly different
+   container rules so we don't override BoardGame.css. Keep this file minimal. */

@@ -17,6 +17,9 @@
     width: 50px;
     border: 1px solid gray;
     font-size: calc(10px + 1vw);
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .detailText{

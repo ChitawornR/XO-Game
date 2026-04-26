@@ -8,6 +8,7 @@ export function buildReplayRouter(controller: ReplayController): Router {
 
   router.post('/', validateBody(createReplaySchema), controller.create);
   router.get('/', controller.list);
+  router.get('/:id', controller.getById);
   router.delete('/:id', controller.remove);
 
   return router;

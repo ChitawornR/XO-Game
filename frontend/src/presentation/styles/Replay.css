@@ -1,0 +1,26 @@
+.replay {
+  width: 100%;
+  max-width: 800px;
+  margin: 15px auto;
+  border-radius: 30px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+.replayInner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.manageBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+}
+
+.manageBtn button {
+  margin-left: 10px;
+  margin-right: 10px;
+}

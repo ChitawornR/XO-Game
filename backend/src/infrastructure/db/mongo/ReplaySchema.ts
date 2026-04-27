@@ -15,6 +15,7 @@ const moveSchema = new Schema<Move>(
     row: { type: Number, required: true },
     col: { type: Number, required: true },
     player: { type: String, enum: ['X', 'O'], required: true },
+    at: { type: Date },
   },
   { _id: false }
 );

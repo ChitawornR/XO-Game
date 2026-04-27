@@ -4,6 +4,8 @@ const moveSchema = z.object({
   row: z.number().int().min(0),
   col: z.number().int().min(0),
   player: z.enum(['X', 'O']),
+  /** ISO 8601 — optional for backward compatibility with v1.1.x clients. */
+  at: z.string().datetime().optional(),
 });
 
 export const createReplaySchema = z.object({

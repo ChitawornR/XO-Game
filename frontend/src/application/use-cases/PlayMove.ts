@@ -25,7 +25,10 @@ export function playMove(
   streak: number,
 ): PlayMoveResult {
   const nextBoard = placeMove(board, row, col, player)
-  const nextMoves: Move[] = [...existingMoves, { row, col, player }]
+  const nextMoves: Move[] = [
+    ...existingMoves,
+    { row, col, player, at: new Date().toISOString() },
+  ]
   const winner = findWinner(nextBoard, streak)
   const isDraw = !winner && isBoardFull(nextBoard)
   return { board: nextBoard, moves: nextMoves, winner, isDraw }

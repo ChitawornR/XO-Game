@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { SaveReplayUseCase } from '../../../application/use-cases/SaveReplayUseCase';
 import { ListReplaysUseCase } from '../../../application/use-cases/ListReplaysUseCase';
+import { GetReplayByIdUseCase } from '../../../application/use-cases/GetReplayByIdUseCase';
 import { DeleteReplayUseCase } from '../../../application/use-cases/DeleteReplayUseCase';
 import { CreateReplayInput } from '../validators/replay.schema';
 
@@ -8,6 +9,7 @@ export class ReplayController {
   constructor(
     private readonly saveReplay: SaveReplayUseCase,
     private readonly listReplays: ListReplaysUseCase,
+    private readonly getReplayById: GetReplayByIdUseCase,
     private readonly deleteReplay: DeleteReplayUseCase
   ) {}
 
@@ -27,6 +29,19 @@ export class ReplayController {
   list = async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const result = await this.listReplays.execute();
+      res.json(result);
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  getById = async (
+    req: Request<{ id: string }>,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    try {
+      const result = await this.getReplayById.execute(req.params.id);
       res.json(result);
     } catch (err) {
       next(err);

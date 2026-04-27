@@ -76,6 +76,45 @@
     margin: 0;
 }
 
+.difficultyLabel {
+    margin-top: 6px;
+}
+
+.difficultyGroup {
+    display: flex;
+    gap: 8px;
+    padding: 4px;
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border-soft);
+    border-radius: 999px;
+    width: fit-content;
+}
+
+.difficultyChip {
+    padding: 8px 18px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 500;
+    font-family: var(--font-mono);
+    cursor: pointer;
+    transition: color 0.15s ease, background 0.15s ease;
+}
+
+.difficultyChip:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.04);
+    transform: none;
+    box-shadow: none;
+}
+
+.difficultyChip.active {
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+}
+
 .btnBottomForm {
     display: flex;
     gap: 12px;

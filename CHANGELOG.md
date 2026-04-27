@@ -3,6 +3,30 @@
 All notable changes to this project are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [1.2.0] - 2026-04-27
+
+### Added
+- **MinimaxBot** — Minimax search with alpha-beta pruning and a sliding-window heuristic for non-terminal evaluation
+  - Adaptive depth: 9 (3×3), 5 (4×4), 4 (5×5), 3 (6×6+) for interactive response time
+  - Center-first move ordering for stronger pruning
+  - 6 unit tests (centre opening, immediate win, immediate block, draws, full board, depth cap)
+- **Bot difficulty selector** on the home form — Easy (greedy) / Hard (minimax) pill chips with `role=radio`
+- Strategy factory `makeBot(difficulty)` keyed on `Difficulty = 'easy' | 'hard'`
+- Backend `GetReplayByIdUseCase` and `GET /replay/:id` route (404 on miss via new `ReplayNotFoundError`)
+- Frontend `LoadReplays` use case wrapping `ReplayApi.list/getById` so the presentation layer is fully port-driven
+- Optional `at` timestamp on every `Move` (ISO 8601, both backend and frontend); domain factory normalises string → Date
+- `MoveDTO` carrying `at?: string` for HTTP boundaries (separate from internal Move type)
+- **GitHub Actions CI** — lint/typecheck/test/build for backend and frontend on push and PR to `main`/`develop`
+
+### Changed
+- `useGame(size, isSinglePlayer, difficulty)` now accepts a difficulty parameter; bot is constructed once per game session via `useRef`
+- `PLACE` reducer action receives the bot instance, keeping the reducer pure
+- `ReplayController` constructor now takes `getReplayById` use case
+- Centralized error handler maps `ReplayNotFoundError` → HTTP 404 (was 500)
+
+### Fixed
+- Type alignment between zod-validated request body and domain `Move`: previously implicit `string` vs `Date` for `at`; now explicit DTO ↔ entity conversion
+
 ## [1.1.1] - 2026-04-27
 
 ### Added
@@ -68,6 +92,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the 
 - Single-player vs greedy bot, multiplayer, board sizes 3+
 - Replay save / list / delete
 
+[1.2.0]: https://github.com/ChitawornR/XO-Game/releases/tag/v1.2.0
 [1.1.1]: https://github.com/ChitawornR/XO-Game/releases/tag/v1.1.1
 [1.1.0]: https://github.com/ChitawornR/XO-Game/releases/tag/v1.1.0
 [1.0.0]: https://github.com/ChitawornR/XO-Game/releases/tag/v1.0.0

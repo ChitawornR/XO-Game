@@ -6,6 +6,7 @@ import { connectDB } from './infrastructure/db/connect';
 import { MongoReplayRepository } from './infrastructure/db/mongo/MongoReplayRepository';
 import { SaveReplayUseCase } from './application/use-cases/SaveReplayUseCase';
 import { ListReplaysUseCase } from './application/use-cases/ListReplaysUseCase';
+import { GetReplayByIdUseCase } from './application/use-cases/GetReplayByIdUseCase';
 import { DeleteReplayUseCase } from './application/use-cases/DeleteReplayUseCase';
 import { ReplayController } from './infrastructure/web/controllers/ReplayController';
 import { buildReplayRouter } from './infrastructure/web/routes/replay.routes';
@@ -16,8 +17,14 @@ import { apiRateLimiter } from './infrastructure/web/middlewares/rateLimit';
 const replayRepo = new MongoReplayRepository();
 const saveReplay = new SaveReplayUseCase(replayRepo);
 const listReplays = new ListReplaysUseCase(replayRepo);
+const getReplayById = new GetReplayByIdUseCase(replayRepo);
 const deleteReplay = new DeleteReplayUseCase(replayRepo);
-const replayController = new ReplayController(saveReplay, listReplays, deleteReplay);
+const replayController = new ReplayController(
+  saveReplay,
+  listReplays,
+  getReplayById,
+  deleteReplay,
+);
 
 // --- Express app ---
 const app = express();

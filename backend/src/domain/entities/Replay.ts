@@ -12,13 +12,19 @@ export type Replay = {
 };
 
 /**
+ * Move shape accepted by createReplay — `at` may arrive as an ISO string from
+ * HTTP boundaries; the factory normalises it to a Date.
+ */
+type MoveInput = Omit<Move, 'at'> & { at?: Date | string };
+
+/**
  * Factory function that validates input and creates a Replay value object.
  * Throws DomainError if any invariant is violated.
  */
 export function createReplay(input: {
   size: number;
   winner: Player | null;
-  moves: Move[];
+  moves: MoveInput[];
   isSinglePlayer: boolean;
 }): Omit<Replay, 'id'> {
   const { size, winner, moves, isSinglePlayer } = input;
@@ -35,7 +41,7 @@ export function createReplay(input: {
     throw new DomainError('Replay must contain at least one move.');
   }
 
-  for (const move of moves) {
+  const normalisedMoves: Move[] = moves.map((move) => {
     if (
       !Number.isInteger(move.row) ||
       !Number.isInteger(move.col) ||
@@ -49,12 +55,22 @@ export function createReplay(input: {
     if (move.player !== 'X' && move.player !== 'O') {
       throw new DomainError("Each move's player must be 'X' or 'O'.");
     }
-  }
+
+    let at: Date | undefined;
+    if (move.at !== undefined) {
+      at = move.at instanceof Date ? move.at : new Date(move.at);
+      if (isNaN(at.getTime())) {
+        throw new DomainError(`Move at "${String(move.at)}" is not a valid date.`);
+      }
+    }
+
+    return { row: move.row, col: move.col, player: move.player, at };
+  });
 
   return {
     size,
     winner,
-    moves,
+    moves: normalisedMoves,
     isSinglePlayer,
     createdAt: new Date(),
   };

@@ -29,6 +29,30 @@ describe('createReplay', () => {
     expect(replay.winner).toBeNull();
   });
 
+  it('normalises move.at from ISO string to Date', () => {
+    const replay = createReplay({
+      ...validInput,
+      moves: [
+        { row: 0, col: 0, player: 'X', at: '2026-04-27T10:00:00.000Z' },
+        { row: 1, col: 1, player: 'O' }, // no `at`
+      ],
+    });
+    expect(replay.moves[0].at).toBeInstanceOf(Date);
+    expect((replay.moves[0].at as Date).toISOString()).toBe(
+      '2026-04-27T10:00:00.000Z',
+    );
+    expect(replay.moves[1].at).toBeUndefined();
+  });
+
+  it('rejects an invalid move.at value', () => {
+    expect(() =>
+      createReplay({
+        ...validInput,
+        moves: [{ row: 0, col: 0, player: 'X', at: 'not-a-date' }],
+      }),
+    ).toThrow(DomainError);
+  });
+
   it('works with isSinglePlayer = true', () => {
     const replay = createReplay({ ...validInput, isSinglePlayer: true });
     expect(replay.isSinglePlayer).toBe(true);

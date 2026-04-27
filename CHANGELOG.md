@@ -3,7 +3,7 @@
 All notable changes to this project are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
-## [Unreleased] — v2.0.0 Online Multiplayer
+## [2.0.0] - 2026-04-27
 
 ### Added — Backend
 - `Room` domain entity (code, size, streak, players, board, status, winner)
@@ -144,3 +144,5 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the 
 [1.0.0]: https://github.com/ChitawornR/XO-Game/releases/tag/v1.0.0
 
 [1.3.0]: https://github.com/ChitawornR/XO-Game/releases/tag/v1.3.0
+
+[2.0.0]: https://github.com/ChitawornR/XO-Game/releases/tag/v2.0.0

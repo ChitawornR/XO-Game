@@ -9,6 +9,7 @@ export type Replay = {
   moves: Move[];
   isSinglePlayer: boolean;
   createdAt: Date;
+  userId?: string;
 };
 
 /**

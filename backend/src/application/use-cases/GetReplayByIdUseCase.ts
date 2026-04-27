@@ -32,6 +32,7 @@ export class GetReplayByIdUseCase {
       winner: r.winner,
       moves: r.moves.map(toMoveDTO),
       isSinglePlayer: r.isSinglePlayer,
+      isOnline: r.isOnline,
       createdAt: r.createdAt.toISOString(),
       userId: r.userId,
     };

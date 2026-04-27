@@ -8,6 +8,7 @@ export type Replay = {
   winner: Player | null;
   moves: Move[];
   isSinglePlayer: boolean;
+  isOnline: boolean;
   createdAt: Date;
   userId?: string;
 };
@@ -27,8 +28,9 @@ export function createReplay(input: {
   winner: Player | null;
   moves: MoveInput[];
   isSinglePlayer: boolean;
+  isOnline?: boolean;
 }): Omit<Replay, 'id'> {
-  const { size, winner, moves, isSinglePlayer } = input;
+  const { size, winner, moves, isSinglePlayer, isOnline = false } = input;
 
   if (!Number.isInteger(size) || size < 3 || size > 10) {
     throw new DomainError('Board size must be an integer between 3 and 10.');
@@ -73,6 +75,7 @@ export function createReplay(input: {
     winner,
     moves: normalisedMoves,
     isSinglePlayer,
+    isOnline,
     createdAt: new Date(),
   };
 }

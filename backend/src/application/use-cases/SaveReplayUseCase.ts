@@ -25,6 +25,7 @@ export class SaveReplayUseCase {
       winner: saved.winner,
       moves: saved.moves.map(toMoveDTO),
       isSinglePlayer: saved.isSinglePlayer,
+      isOnline: saved.isOnline,
       createdAt: saved.createdAt.toISOString(),
     };
   }

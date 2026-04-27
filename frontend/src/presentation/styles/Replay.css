@@ -50,6 +50,14 @@
     background: linear-gradient(180deg, var(--accent-x), transparent);
 }
 
+.replay.online::before {
+    background: linear-gradient(180deg, #c084fc, transparent);
+}
+
+.replay.online .modeBadge {
+    color: #c084fc;
+}
+
 .replayInner {
     display: flex;
     justify-content: space-between;

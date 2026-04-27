@@ -9,7 +9,7 @@ function generateCode(): string {
 export class RoomManager {
   private rooms = new Map<string, Room>();
 
-  create(socketId: string, username: string, size: number): Room {
+  create(socketId: string, userId: string, username: string, size: number): Room {
     let code = generateCode();
     while (this.rooms.has(code)) code = generateCode();
 
@@ -17,7 +17,7 @@ export class RoomManager {
       code,
       size,
       streak: streakFor(size),
-      players: [{ socketId, username, mark: 'X' }],
+      players: [{ socketId, userId, username, mark: 'X' }],
       board: createEmptyBoard(size),
       currentPlayer: 'X',
       moves: [],
@@ -29,11 +29,11 @@ export class RoomManager {
     return room;
   }
 
-  join(socketId: string, username: string, code: string): Room | null {
+  join(socketId: string, userId: string, username: string, code: string): Room | null {
     const room = this.rooms.get(code);
     if (!room || room.status !== 'waiting' || room.players.length >= 2) return null;
 
-    room.players.push({ socketId, username, mark: 'O' });
+    room.players.push({ socketId, userId, username, mark: 'O' });
     room.status = 'playing';
     return room;
   }

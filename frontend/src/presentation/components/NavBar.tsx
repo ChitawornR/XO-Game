@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, Link, useNavigate } from 'react-router-dom'
 import { IoNewspaperOutline } from 'react-icons/io5'
 import { useAuth } from '../context/AuthContext'
 import '../styles/NavBar.css'
@@ -19,7 +19,7 @@ function NavBar({ onOpenRules }: Props) {
 
   return (
     <div className="navBar">
-      <h1>XO-Game</h1>
+      <Link to="/"><h1>XO-Game</h1></Link>
       <ul className="navUl">
         <li>
           <NavLink to="/">Home</NavLink>

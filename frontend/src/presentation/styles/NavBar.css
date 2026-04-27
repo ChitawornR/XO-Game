@@ -15,6 +15,10 @@
     background: rgba(11, 15, 23, 0.7);
 }
 
+.navBar a:has(h1) {
+    text-decoration: none;
+}
+
 .navBar h1 {
     font-family: var(--font-mono);
     font-size: 22px;

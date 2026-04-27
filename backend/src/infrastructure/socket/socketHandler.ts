@@ -63,6 +63,15 @@ export function registerSocketHandlers(io: Server): void {
       io.to(host.socketId).emit('opponent-joined', {
         opponentUsername: joiner.username,
       });
+
+      // Emit initial game state so both clients can render an empty board
+      io.to(room.code).emit('game-updated', {
+        board: room.board,
+        currentPlayer: room.currentPlayer,
+        status: room.status,
+        winner: room.winner,
+        moves: room.moves,
+      });
     });
 
     // ------------------------------------------------------------------ place-move

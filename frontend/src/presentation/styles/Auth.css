@@ -1,0 +1,108 @@
+.authPage {
+    max-width: 420px;
+    margin: 60px auto;
+    padding: 36px 32px;
+    background: var(--bg-glass);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.authPage h2 {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    margin-bottom: 28px;
+    color: var(--text-primary);
+}
+
+.authPage h2::before {
+    content: '> ';
+    color: var(--accent-success);
+}
+
+.authField {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 18px;
+}
+
+.authField label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+}
+
+.authField input {
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    padding: 10px 14px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.authField input:focus {
+    border-color: var(--accent-x);
+    box-shadow: 0 0 0 2px var(--accent-x-glow);
+}
+
+.authSubmit {
+    width: 100%;
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    border: none;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 12px;
+    border-radius: var(--radius-md);
+    margin-top: 8px;
+    justify-content: center;
+}
+
+.authSubmit:hover:not(:disabled) {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-glow-x);
+    border: none;
+}
+
+.authError {
+    color: var(--accent-danger);
+    font-size: 13px;
+    margin-bottom: 12px;
+    font-family: var(--font-mono);
+}
+
+.authSwitch {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.authSwitch a {
+    color: var(--accent-x);
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.navUser {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+}
+
+.navUser span {
+    color: var(--accent-success);
+}

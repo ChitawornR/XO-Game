@@ -24,7 +24,7 @@ function Replay() {
     if (!ok) return
     try {
       await api.delete(id)
-      setReplays((prev) => prev.filter((r) => r._id !== id))
+      setReplays((prev) => prev.filter((r) => r.id !== id))
     } catch (e) {
       console.error(e)
     }
@@ -39,7 +39,7 @@ function Replay() {
         const date = new Date(replay.createdAt).toLocaleString('th-TH-u-ca-gregory')
         const modeClass = replay.isSinglePlayer ? 'single' : 'multi'
         return (
-          <div key={replay._id} className={`replay ${modeClass}`}>
+          <div key={replay.id} className={`replay ${modeClass}`}>
             <div className="replayInner">
               <div className="replayInfo">
                 <div>
@@ -68,12 +68,12 @@ function Replay() {
                 </div>
               </div>
               <div className="manageBtn">
-                <button onClick={() => navigate(`/replay/${replay._id}`, { state: replay })}>
+                <button onClick={() => navigate(`/replay/${replay.id}`, { state: replay })}>
                   View detail
                 </button>
                 <button
                   className="btnWithIcon delete"
-                  onClick={() => handleDelete(replay._id)}
+                  onClick={() => handleDelete(replay.id)}
                   aria-label="Delete replay"
                 >
                   <FaRegTrashAlt fontSize={15} />

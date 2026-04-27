@@ -15,6 +15,7 @@ export type ReplayDTO = {
   moves: MoveDTO[];
   isSinglePlayer: boolean;
   createdAt: string; // ISO 8601
+  userId?: string;
 };
 
 /** Input received from the HTTP boundary (zod-validated). */
@@ -23,4 +24,5 @@ export type CreateReplayDTO = {
   winner: Player | null;
   moves: MoveDTO[];
   isSinglePlayer: boolean;
+  userId?: string;
 };

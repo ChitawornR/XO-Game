@@ -2,7 +2,7 @@ import type { Move } from '../../domain/entities/Move'
 import type { Player } from '../../domain/entities/Player'
 
 export type ReplayRecord = {
-  _id: string
+  id: string
   size: number
   winner: Player | null
   moves: Move[]

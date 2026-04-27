@@ -24,6 +24,7 @@ export class ListReplaysUseCase {
       moves: r.moves.map(toMoveDTO),
       isSinglePlayer: r.isSinglePlayer,
       createdAt: r.createdAt.toISOString(),
+      userId: r.userId,
     }));
   }
 }

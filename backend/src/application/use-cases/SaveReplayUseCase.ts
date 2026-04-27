@@ -17,7 +17,7 @@ export class SaveReplayUseCase {
 
   async execute(dto: CreateReplayDTO): Promise<ReplayDTO> {
     const replayData = createReplay(dto);
-    const saved = await this.repo.save(replayData);
+    const saved = await this.repo.save({ ...replayData, userId: dto.userId });
 
     return {
       id: saved.id!,

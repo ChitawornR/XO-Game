@@ -3,6 +3,27 @@
 All notable changes to this project are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [1.3.0] - 2026-04-27
+
+### Added — Backend
+- `User` domain entity (id, username, email, passwordHash, createdAt)
+- `AuthError` domain errors: `InvalidCredentialsError` (→ HTTP 401), `UserAlreadyExistsError` (→ HTTP 409)
+- `UserRepository` port + `MongoUserRepository` implementation (unique email index)
+- `RegisterUseCase` (bcrypt hash, 10 rounds) and `LoginUseCase` (JWT, 7d expiry)
+- `POST /auth/register` and `POST /auth/login` routes with zod validation
+- `authenticate` middleware — verifies JWT Bearer token, attaches `req.user`
+- All `/replay` routes protected behind `authenticate`; DELETE scoped to replay owner
+- Optional `userId` field on `Replay` entity and `ReplaySchema` (backward-compatible)
+- `env.JWT_SECRET` added to zod-validated env schema
+
+### Added — Frontend
+- `AuthApi` port + `HttpAuthApi` implementation (JWT stored in `localStorage`)
+- `HttpReplayApi` now injects `Authorization: Bearer` header on every request
+- `AuthContext` + `AuthProvider`: `user`, `login`, `register`, `logout`; bootstraps from stored token on load
+- `Login` and `Register` pages with hi-tech glass-card styling
+- `ProtectedRoute` wrapper — redirects unauthenticated users to `/login`
+- NavBar shows username and Logout button when authenticated; hides Replay link when logged out
+
 ## [1.2.1] - 2026-04-27
 
 ### Fixed
@@ -102,3 +123,5 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the 
 [1.1.1]: https://github.com/ChitawornR/XO-Game/releases/tag/v1.1.1
 [1.1.0]: https://github.com/ChitawornR/XO-Game/releases/tag/v1.1.0
 [1.0.0]: https://github.com/ChitawornR/XO-Game/releases/tag/v1.0.0
+
+[1.3.0]: https://github.com/ChitawornR/XO-Game/releases/tag/v1.3.0

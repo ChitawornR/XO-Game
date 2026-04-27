@@ -96,7 +96,9 @@
     background: linear-gradient(135deg, #f472b6 0%, #c084fc 100%);
     border-color: transparent;
     color: var(--btn-primary-text);
+    width: auto;
     flex-shrink: 0;
+    min-width: 88px;
 }
 
 .onlineBtn.join:hover:not(:disabled) {

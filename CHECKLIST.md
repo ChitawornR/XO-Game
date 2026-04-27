@@ -45,10 +45,23 @@ Legend: `[x]` done · `[ ]` not done · `[~]` partial · `[skip]` user-handled
 - [x] Protected routes: redirect unauthenticated users to `/login`
 - [x] Show username / logout button in `NavBar`; hide Replay link when logged out
 
-## Phase 2b — Online Multiplayer (v2.0.0)
+## Phase 2b — Online Multiplayer (v2.0.0) ← in progress
 
-- [ ] **Online Multiplayer via socket.io** — needs design session: room model, conflict resolution, state sync
-- [ ] **Matchmaking / Room code** — depends on Auth + WebSocket above
+### Backend
+- [x] `domain/entities/Room.ts` — code, size, streak, players, board, status, winner
+- [x] `domain/entities/Board.ts` + `domain/services/{WinnerChecker,BoardOps,streakFor}.ts`
+- [x] `infrastructure/socket/RoomManager.ts` — in-memory room Map (create, join, lookup, remove)
+- [x] `infrastructure/socket/socketHandler.ts` — events: create-room, join-room, place-move, disconnect
+- [x] `main.ts` — http.createServer + socket.io attached; JWT auth on handshake
+
+### Frontend
+- [x] `infrastructure/socket/socketClient.ts` — singleton socket with JWT auth
+- [x] `application/hooks/useOnlineGame.ts` — phase state machine + socket event subscriptions
+- [x] `presentation/pages/OnlineRoom.tsx` — lobby (create / join) + ended screens
+- [x] `presentation/components/OnlineBoardGame.tsx` — board synced from server state
+- [x] `presentation/styles/OnlineRoom.css`
+- [x] `InputSizeForm` — added Online button → navigates to `/online`
+- [x] `main.tsx` — `/online` protected route added
 
 ## Phase 3 — Game Features
 

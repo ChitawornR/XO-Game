@@ -3,6 +3,14 @@
 All notable changes to this project are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.0.1] - 2026-04-27
+
+### Fixed
+- **Online lobby flow**: clicking "Online" in `InputSizeForm` no longer requires entering a board size. Size is selected only inside `OnlineRoom` when creating a room; joiners just enter a code.
+- **Empty board on join**: backend now emits an initial `game-updated` event right after the second player joins, so both clients render the empty board immediately when entering the playing phase. Previously `gameState` was `null` and the board never appeared.
+- **`useOnlineGame` API**: `size` removed from hook parameters; `createRoom(size)` now takes the size, and joiner's size is derived from `board.length` in the server's `game-updated` payload.
+- Surfaced socket `error` events to the UI as a visible message instead of console-only.
+
 ## [2.0.0] - 2026-04-27
 
 ### Added — Backend
@@ -146,3 +154,5 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the 
 [1.3.0]: https://github.com/ChitawornR/XO-Game/releases/tag/v1.3.0
 
 [2.0.0]: https://github.com/ChitawornR/XO-Game/releases/tag/v2.0.0
+
+[2.0.1]: https://github.com/ChitawornR/XO-Game/releases/tag/v2.0.1

@@ -43,6 +43,36 @@
     gap: 14px;
 }
 
+.onlineCreateBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.onlineSizeInput {
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 16px;
+    padding: 10px 14px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.onlineSizeInput:focus {
+    border-color: var(--accent-x);
+    box-shadow: 0 0 0 2px var(--accent-x-glow);
+}
+
+.onlineError {
+    color: var(--accent-danger);
+    font-size: 13px;
+    font-family: var(--font-mono);
+    margin: 0;
+}
+
 .onlineBtn {
     width: 100%;
     justify-content: center;

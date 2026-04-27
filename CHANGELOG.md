@@ -3,6 +3,11 @@
 All notable changes to this project are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [1.2.1] - 2026-04-27
+
+### Fixed
+- CI failure on `setup-node@v4` for the backend job: `backend/.gitignore` was excluding `package-lock.json`, so the cache-dependency-path could not be resolved and `npm ci` would have failed. Removed the rule and committed the existing lockfile.
+
 ## [1.2.0] - 2026-04-27
 
 ### Added
@@ -92,6 +97,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the 
 - Single-player vs greedy bot, multiplayer, board sizes 3+
 - Replay save / list / delete
 
+[1.2.1]: https://github.com/ChitawornR/XO-Game/releases/tag/v1.2.1
 [1.2.0]: https://github.com/ChitawornR/XO-Game/releases/tag/v1.2.0
 [1.1.1]: https://github.com/ChitawornR/XO-Game/releases/tag/v1.1.1
 [1.1.0]: https://github.com/ChitawornR/XO-Game/releases/tag/v1.1.0

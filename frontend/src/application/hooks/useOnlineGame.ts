@@ -5,12 +5,10 @@ import type { Player } from '../../domain/entities/Player'
 import type { Move } from '../../domain/entities/Move'
 import type { GameStatus } from '../../domain/entities/GameState'
 
-// ---- Types mirroring server events ----
-
 export type OnlinePhase =
-  | { type: 'connecting' }
-  | { type: 'waiting'; code: string }               // created, waiting for opponent
-  | { type: 'joining' }                              // sent join-room, waiting for ack
+  | { type: 'idle' }
+  | { type: 'waiting'; code: string }
+  | { type: 'joining' }
   | { type: 'playing'; code: string; myMark: Player; opponentUsername: string }
   | { type: 'ended'; reason: 'won' | 'draw' | 'opponent-disconnected' }
 
@@ -23,34 +21,30 @@ export type OnlineGameState = {
   size: number
 }
 
-// ---- Hook ----
-
-export function useOnlineGame(socket: Socket, size: number) {
-  const [phase, setPhase] = useState<OnlinePhase>({ type: 'connecting' })
+export function useOnlineGame(socket: Socket) {
+  const [phase, setPhase] = useState<OnlinePhase>({ type: 'idle' })
   const [gameState, setGameState] = useState<OnlineGameState | null>(null)
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
   const myMarkRef = useRef<Player | null>(null)
 
-  // Connect once on mount, cleanup on unmount
   useEffect(() => {
     if (!socket.connected) socket.connect()
 
-    socket.on('connect', () => setPhase({ type: 'connecting' }))
-
     socket.on('room-created', ({ code }: { code: string }) => {
+      myMarkRef.current = 'X'
       setPhase({ type: 'waiting', code })
     })
 
     socket.on('opponent-joined', ({ opponentUsername }: { opponentUsername: string }) => {
       setPhase((prev) => {
         if (prev.type !== 'waiting') return prev
-        myMarkRef.current = 'X'
         return { type: 'playing', code: prev.code, myMark: 'X', opponentUsername }
       })
     })
 
     socket.on(
       'room-joined',
-      ({ code, opponentUsername }: { code: string; myMark: Player; opponentUsername: string }) => {
+      ({ code, opponentUsername }: { code: string; size: number; myMark: Player; opponentUsername: string }) => {
         myMarkRef.current = 'O'
         setPhase({ type: 'playing', code, myMark: 'O', opponentUsername })
       },
@@ -71,7 +65,7 @@ export function useOnlineGame(socket: Socket, size: number) {
           moves: data.moves,
           status: data.status as GameStatus,
           winner: data.winner,
-          size,
+          size: data.board.length,
         })
         if (data.status === 'ended') {
           setPhase({ type: 'ended', reason: data.winner ? 'won' : 'draw' })
@@ -85,20 +79,27 @@ export function useOnlineGame(socket: Socket, size: number) {
 
     socket.on('error', ({ message }: { message: string }) => {
       console.error('[socket error]', message)
+      setErrorMsg(message)
+      setPhase((prev) => (prev.type === 'joining' ? { type: 'idle' } : prev))
     })
 
     return () => {
       socket.removeAllListeners()
       socket.disconnect()
     }
-  }, [socket, size])
+  }, [socket])
 
-  const createRoom = useCallback(() => {
-    socket.emit('create-room', { size })
-  }, [socket, size])
+  const createRoom = useCallback(
+    (size: number) => {
+      setErrorMsg(null)
+      socket.emit('create-room', { size })
+    },
+    [socket],
+  )
 
   const joinRoom = useCallback(
     (code: string) => {
+      setErrorMsg(null)
       setPhase({ type: 'joining' })
       socket.emit('join-room', { code })
     },
@@ -114,5 +115,13 @@ export function useOnlineGame(socket: Socket, size: number) {
     [socket, phase, gameState],
   )
 
-  return { phase, gameState, myMark: myMarkRef.current, createRoom, joinRoom, placeCell }
+  return {
+    phase,
+    gameState,
+    myMark: myMarkRef.current,
+    errorMsg,
+    createRoom,
+    joinRoom,
+    placeCell,
+  }
 }

@@ -13,16 +13,17 @@ function InputSizeForm() {
   function start(mode: 'single' | 'multi' | 'online') {
     return (e: React.FormEvent) => {
       e.preventDefault()
+      if (mode === 'online') {
+        setError(null)
+        navigate('/online')
+        return
+      }
       if (!size || size < 3) {
         setError('Board size must be at least 3.')
         return
       }
       setError(null)
-      if (mode === 'online') {
-        navigate('/online', { state: { size } })
-      } else {
-        navigate('/play', { state: { isSinglePlayer: mode === 'single', size, difficulty } })
-      }
+      navigate('/play', { state: { isSinglePlayer: mode === 'single', size, difficulty } })
     }
   }
 

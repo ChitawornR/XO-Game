@@ -31,6 +31,7 @@ export class MongoReplayRepository implements ReplayRepository {
       moves: doc.moves,
       isSinglePlayer: doc.isSinglePlayer,
       createdAt: doc.createdAt,
+      userId: doc.userId,
     };
   }
 }

@@ -4,27 +4,33 @@ import cors from 'cors';
 import { env } from './infrastructure/config/env';
 import { connectDB } from './infrastructure/db/connect';
 import { MongoReplayRepository } from './infrastructure/db/mongo/MongoReplayRepository';
+import { MongoUserRepository } from './infrastructure/db/mongo/MongoUserRepository';
 import { SaveReplayUseCase } from './application/use-cases/SaveReplayUseCase';
 import { ListReplaysUseCase } from './application/use-cases/ListReplaysUseCase';
 import { GetReplayByIdUseCase } from './application/use-cases/GetReplayByIdUseCase';
 import { DeleteReplayUseCase } from './application/use-cases/DeleteReplayUseCase';
+import { RegisterUseCase } from './application/use-cases/RegisterUseCase';
+import { LoginUseCase } from './application/use-cases/LoginUseCase';
 import { ReplayController } from './infrastructure/web/controllers/ReplayController';
+import { AuthController } from './infrastructure/web/controllers/AuthController';
 import { buildReplayRouter } from './infrastructure/web/routes/replay.routes';
+import { buildAuthRouter } from './infrastructure/web/routes/auth.routes';
 import { errorHandler } from './infrastructure/web/middlewares/errorHandler';
 import { apiRateLimiter } from './infrastructure/web/middlewares/rateLimit';
 
 // --- Dependency wiring ---
 const replayRepo = new MongoReplayRepository();
+const userRepo = new MongoUserRepository();
+
 const saveReplay = new SaveReplayUseCase(replayRepo);
 const listReplays = new ListReplaysUseCase(replayRepo);
 const getReplayById = new GetReplayByIdUseCase(replayRepo);
 const deleteReplay = new DeleteReplayUseCase(replayRepo);
-const replayController = new ReplayController(
-  saveReplay,
-  listReplays,
-  getReplayById,
-  deleteReplay,
-);
+const register = new RegisterUseCase(userRepo);
+const login = new LoginUseCase(userRepo);
+
+const replayController = new ReplayController(saveReplay, listReplays, getReplayById, deleteReplay);
+const authController = new AuthController(register, login);
 
 // --- Express app ---
 const app = express();
@@ -38,6 +44,7 @@ app.use(
 app.use(express.json());
 app.use(apiRateLimiter);
 
+app.use('/auth', buildAuthRouter(authController));
 app.use('/replay', buildReplayRouter(replayController));
 
 // Global error handler must come last

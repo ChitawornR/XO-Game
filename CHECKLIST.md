@@ -20,29 +20,30 @@ Legend: `[x]` done · `[ ]` not done · `[~]` partial · `[skip]` user-handled
 ## Phase 2a — Auth (v1.3.0) ← next target
 
 ### Backend
-- [ ] `domain/entities/User.ts` — id, username, email, passwordHash, createdAt
-- [ ] `domain/errors/AuthError.ts` — `InvalidCredentialsError`, `UserAlreadyExistsError`
-- [ ] `application/ports/UserRepository.ts` — interface (findByEmail, save)
-- [ ] `application/use-cases/RegisterUseCase.ts` — hash password with bcrypt, save user
-- [ ] `application/use-cases/LoginUseCase.ts` — verify password, return signed JWT
-- [ ] `infrastructure/db/mongo/UserSchema.ts` — mongoose schema (unique email index)
-- [ ] `infrastructure/db/mongo/MongoUserRepository.ts`
-- [ ] `infrastructure/web/controllers/AuthController.ts` — register / login actions
-- [ ] `infrastructure/web/routes/auth.routes.ts` — `POST /auth/register`, `POST /auth/login`
-- [ ] `infrastructure/web/middlewares/authenticate.ts` — JWT verify, attach `req.user`
-- [ ] Associate replay with optional `userId` field (backward-compatible, existing replays unaffected)
-- [ ] Protect `POST /replay` and `DELETE /replay/:id` behind `authenticate` middleware
-- [ ] Zod schemas for register / login request bodies
+- [x] `domain/entities/User.ts` — id, username, email, passwordHash, createdAt
+- [x] `domain/errors/AuthError.ts` — `InvalidCredentialsError`, `UserAlreadyExistsError`
+- [x] `application/ports/UserRepository.ts` — interface (findByEmail, save)
+- [x] `application/use-cases/RegisterUseCase.ts` — hash password with bcrypt, save user
+- [x] `application/use-cases/LoginUseCase.ts` — verify password, return signed JWT
+- [x] `infrastructure/db/mongo/UserSchema.ts` — mongoose schema (unique email index)
+- [x] `infrastructure/db/mongo/MongoUserRepository.ts`
+- [x] `infrastructure/web/controllers/AuthController.ts` — register / login actions
+- [x] `infrastructure/web/routes/auth.routes.ts` — `POST /auth/register`, `POST /auth/login`
+- [x] `infrastructure/web/middlewares/authenticate.ts` — JWT verify, attach `req.user`
+- [x] Associate replay with optional `userId` field (backward-compatible, existing replays unaffected)
+- [x] Protect all `/replay` routes behind `authenticate` middleware; DELETE scoped to owner
+- [x] Zod schemas for register / login request bodies
 
 ### Frontend
-- [ ] `application/ports/AuthApi.ts` — interface (register, login, logout)
-- [ ] `application/use-cases/Login.ts`, `Register.ts`, `Logout.ts`
-- [ ] `infrastructure/api/HttpAuthApi.ts` — stores JWT in `localStorage`
-- [ ] `presentation/context/AuthContext.tsx` — currentUser, login, logout helpers
-- [ ] `presentation/pages/Login.tsx`
-- [ ] `presentation/pages/Register.tsx`
-- [ ] Protected UI: hide Delete button and Save Replay when not logged in
-- [ ] Show username / logout button in `NavBar`
+- [x] `application/ports/AuthApi.ts` — interface (register, login, logout, getToken)
+- [x] `application/use-cases/Login.ts`, `Register.ts`
+- [x] `infrastructure/api/HttpAuthApi.ts` — stores JWT in `localStorage`
+- [x] `infrastructure/api/HttpReplayApi.ts` — sends `Authorization: Bearer` header
+- [x] `presentation/context/AuthContext.tsx` — currentUser, login, register, logout helpers
+- [x] `presentation/pages/Login.tsx`
+- [x] `presentation/pages/Register.tsx`
+- [x] Protected routes: redirect unauthenticated users to `/login`
+- [x] Show username / logout button in `NavBar`; hide Replay link when logged out
 
 ## Phase 2b — Online Multiplayer (v2.0.0)
 

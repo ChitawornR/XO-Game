@@ -8,6 +8,7 @@ export interface ReplayDocument extends Document {
   moves: Move[];
   isSinglePlayer: boolean;
   createdAt: Date;
+  userId?: string;
 }
 
 const moveSchema = new Schema<Move>(
@@ -27,6 +28,7 @@ const replaySchema = new Schema<ReplayDocument>(
     moves: { type: [moveSchema], required: true },
     isSinglePlayer: { type: Boolean, required: true },
     createdAt: { type: Date, default: Date.now },
+    userId: { type: String },
   },
   { timestamps: false }
 );

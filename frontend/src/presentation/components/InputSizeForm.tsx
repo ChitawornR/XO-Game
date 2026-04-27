@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { FaUser, FaUserFriends } from 'react-icons/fa'
+import { FaUser, FaUserFriends, FaGlobe } from 'react-icons/fa'
 import type { Difficulty } from '../../domain/services/bots'
 import '../styles/InputSizeForm.css'
 
@@ -10,7 +10,7 @@ function InputSizeForm() {
   const [difficulty, setDifficulty] = useState<Difficulty>('easy')
   const [error, setError] = useState<string | null>(null)
 
-  function start(isSinglePlayer: boolean) {
+  function start(mode: 'single' | 'multi' | 'online') {
     return (e: React.FormEvent) => {
       e.preventDefault()
       if (!size || size < 3) {
@@ -18,7 +18,11 @@ function InputSizeForm() {
         return
       }
       setError(null)
-      navigate('/play', { state: { isSinglePlayer, size, difficulty } })
+      if (mode === 'online') {
+        navigate('/online', { state: { size } })
+      } else {
+        navigate('/play', { state: { isSinglePlayer: mode === 'single', size, difficulty } })
+      }
     }
   }
 
@@ -61,21 +65,17 @@ function InputSizeForm() {
       {error && <p className="formError">{error}</p>}
 
       <div className="btnBottomForm">
-        <button
-          type="button"
-          className="btnWithIcon singlePlayer"
-          onClick={start(true)}
-        >
+        <button type="button" className="btnWithIcon singlePlayer" onClick={start('single')}>
           <FaUser fontSize={14} />
           Single player
         </button>
-        <button
-          type="button"
-          className="btnWithIcon multiPlayer"
-          onClick={start(false)}
-        >
+        <button type="button" className="btnWithIcon multiPlayer" onClick={start('multi')}>
           <FaUserFriends fontSize={18} />
-          Multi player
+          Local multi
+        </button>
+        <button type="button" className="btnWithIcon onlinePlayer" onClick={start('online')}>
+          <FaGlobe fontSize={14} />
+          Online
         </button>
       </div>
     </form>

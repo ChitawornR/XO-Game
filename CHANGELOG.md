@@ -3,6 +3,25 @@
 All notable changes to this project are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased] — v2.0.0 Online Multiplayer
+
+### Added — Backend
+- `Room` domain entity (code, size, streak, players, board, status, winner)
+- `Board` entity + `WinnerChecker`, `BoardOps`, `streakFor` domain services (server-side game logic)
+- `RoomManager` — in-memory room store (create, join, lookup by socket, auto-remove on end)
+- `socketHandler` — socket.io events: `create-room`, `join-room`, `place-move`, `disconnect`
+- JWT auth on socket handshake — unauthenticated connections are rejected
+- `main.ts` migrated to `http.createServer` + socket.io attached to same port
+
+### Added — Frontend
+- `socketClient` — singleton socket.io-client with JWT Bearer auth
+- `useOnlineGame` hook — phase state machine (`connecting → waiting/joining → playing → ended`) + all server event subscriptions
+- `OnlineRoom` page — lobby with Create Room / Join by code, waiting screen, game-over screen
+- `OnlineBoardGame` component — board driven by server state; only active player's clicks are forwarded
+- `OnlineRoom.css` — neon room code display, pulsing waiting hint, status bar
+- `InputSizeForm` — Online button (green gradient) navigates to `/online` with board size
+- `/online` protected route added to router
+
 ## [1.3.0] - 2026-04-27
 
 ### Added — Backend

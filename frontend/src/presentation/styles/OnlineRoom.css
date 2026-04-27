@@ -1,0 +1,188 @@
+.onlineCard {
+    max-width: 480px;
+    margin: 48px auto;
+    padding: 36px 32px;
+    background: var(--bg-glass);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.onlineTitle {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    color: var(--text-primary);
+}
+
+.onlineTitle::before {
+    content: '> ';
+    color: var(--accent-success);
+}
+
+.onlineSubtitle {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: -12px 0 0;
+}
+
+.onlineMsg {
+    font-size: 16px;
+    color: var(--text-primary);
+    text-align: center;
+}
+
+.onlineSection {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.onlineBtn {
+    width: 100%;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 13px;
+    border-radius: var(--radius-md);
+}
+
+.onlineBtn.create {
+    background: var(--btn-primary-bg);
+    border-color: transparent;
+    color: var(--btn-primary-text);
+}
+
+.onlineBtn.create:hover:not(:disabled) {
+    box-shadow: var(--shadow-glow-x);
+}
+
+.onlineBtn.join {
+    background: linear-gradient(135deg, #f472b6 0%, #c084fc 100%);
+    border-color: transparent;
+    color: var(--btn-primary-text);
+    flex-shrink: 0;
+}
+
+.onlineBtn.join:hover:not(:disabled) {
+    box-shadow: var(--shadow-glow-o);
+}
+
+.onlineDivider {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+}
+
+.onlineJoinRow {
+    display: flex;
+    gap: 10px;
+}
+
+.onlineInput {
+    flex: 1;
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 18px;
+    letter-spacing: 0.2em;
+    padding: 10px 14px;
+    text-transform: uppercase;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.onlineInput:focus {
+    border-color: var(--accent-o);
+    box-shadow: 0 0 0 2px var(--accent-o-glow);
+}
+
+.onlineWaiting {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.onlineCode {
+    font-family: var(--font-mono);
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    color: var(--accent-x);
+    text-shadow: var(--shadow-glow-x);
+    padding: 12px 24px;
+    background: var(--bg-elev-1);
+    border: 1px solid rgba(34, 211, 238, 0.35);
+    border-radius: var(--radius-md);
+}
+
+.onlineLabel {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+}
+
+.onlineHint {
+    font-size: 13px;
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+.onlineBackBtn {
+    align-self: flex-start;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 13px;
+    padding: 0;
+    cursor: pointer;
+}
+
+.onlineBackBtn:hover {
+    color: var(--text-primary);
+    transform: none;
+    box-shadow: none;
+    border: none;
+}
+
+/* Status bar during game */
+.onlineStatus {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.onlinePlayer.x { color: var(--accent-x); }
+.onlinePlayer.o { color: var(--accent-o); }
+
+.onlineTurnBadge {
+    font-size: 12px;
+    color: var(--accent-success);
+    background: rgba(74, 222, 128, 0.1);
+    border: 1px solid rgba(74, 222, 128, 0.25);
+    border-radius: 999px;
+    padding: 4px 12px;
+}

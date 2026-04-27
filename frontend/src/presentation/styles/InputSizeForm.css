@@ -149,3 +149,13 @@
 .btnBottomForm button.multiPlayer:hover:not(:disabled) {
     box-shadow: var(--shadow-glow-x);
 }
+
+.btnBottomForm button.onlinePlayer {
+    background: linear-gradient(135deg, #4ade80 0%, #22d3ee 100%);
+    border-color: transparent;
+    color: var(--btn-primary-text);
+}
+
+.btnBottomForm button.onlinePlayer:hover:not(:disabled) {
+    box-shadow: 0 0 18px rgba(74, 222, 128, 0.4);
+}

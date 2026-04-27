@@ -13,6 +13,7 @@ export const createReplaySchema = z.object({
   winner: z.enum(['X', 'O']).nullable(),
   moves: z.array(moveSchema).min(1),
   isSinglePlayer: z.boolean(),
+  isOnline: z.boolean().optional().default(false),
 });
 
 export type CreateReplayInput = z.infer<typeof createReplaySchema>;

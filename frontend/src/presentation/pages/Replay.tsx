@@ -37,7 +37,7 @@ function Replay() {
     <div className="replayList">
       {replays.map((replay) => {
         const date = new Date(replay.createdAt).toLocaleString('th-TH-u-ca-gregory')
-        const modeClass = replay.isSinglePlayer ? 'single' : 'multi'
+        const modeClass = replay.isOnline ? 'online' : replay.isSinglePlayer ? 'single' : 'multi'
         return (
           <div key={replay.id} className={`replay ${modeClass}`}>
             <div className="replayInner">
@@ -63,7 +63,7 @@ function Replay() {
                 <div>
                   <span className="label">Mode</span>
                   <span className="value modeBadge">
-                    {replay.isSinglePlayer ? 'Single player' : 'Multi player'}
+                    {replay.isOnline ? 'Online' : replay.isSinglePlayer ? 'Single player' : 'Local multi'}
                   </span>
                 </div>
               </div>

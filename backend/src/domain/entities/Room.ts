@@ -7,6 +7,7 @@ export type RoomStatus = 'waiting' | 'playing' | 'ended';
 export type RoomPlayer = {
   socketId: string;
   username: string;
+  userId: string;
   mark: Player;
 };
 

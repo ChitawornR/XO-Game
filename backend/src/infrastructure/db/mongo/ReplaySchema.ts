@@ -7,6 +7,7 @@ export interface ReplayDocument extends Document {
   winner: Player | null;
   moves: Move[];
   isSinglePlayer: boolean;
+  isOnline: boolean;
   createdAt: Date;
   userId?: string;
 }
@@ -27,6 +28,7 @@ const replaySchema = new Schema<ReplayDocument>(
     winner: { type: String, enum: ['X', 'O', null], default: null },
     moves: { type: [moveSchema], required: true },
     isSinglePlayer: { type: Boolean, required: true },
+    isOnline: { type: Boolean, default: false },
     createdAt: { type: Date, default: Date.now },
     userId: { type: String },
   },

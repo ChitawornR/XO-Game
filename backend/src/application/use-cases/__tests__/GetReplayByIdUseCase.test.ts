@@ -45,6 +45,7 @@ describe('GetReplayByIdUseCase', () => {
       winner: 'X',
       moves: [{ row: 0, col: 0, player: 'X' }],
       isSinglePlayer: false,
+      isOnline: false,
       createdAt: new Date('2026-01-01T00:00:00Z'),
     });
 

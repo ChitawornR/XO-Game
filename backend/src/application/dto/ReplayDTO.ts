@@ -14,6 +14,7 @@ export type ReplayDTO = {
   winner: Player | null;
   moves: MoveDTO[];
   isSinglePlayer: boolean;
+  isOnline: boolean;
   createdAt: string; // ISO 8601
   userId?: string;
 };
@@ -24,5 +25,6 @@ export type CreateReplayDTO = {
   winner: Player | null;
   moves: MoveDTO[];
   isSinglePlayer: boolean;
+  isOnline?: boolean;
   userId?: string;
 };

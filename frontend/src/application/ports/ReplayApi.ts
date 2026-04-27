@@ -7,6 +7,7 @@ export type ReplayRecord = {
   winner: Player | null
   moves: Move[]
   isSinglePlayer: boolean
+  isOnline: boolean
   createdAt: string
 }
 

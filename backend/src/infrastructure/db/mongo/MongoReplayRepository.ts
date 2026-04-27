@@ -30,6 +30,7 @@ export class MongoReplayRepository implements ReplayRepository {
       winner: doc.winner,
       moves: doc.moves,
       isSinglePlayer: doc.isSinglePlayer,
+      isOnline: doc.isOnline ?? false,
       createdAt: doc.createdAt,
       userId: doc.userId,
     };

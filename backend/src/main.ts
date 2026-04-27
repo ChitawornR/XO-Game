@@ -54,7 +54,7 @@ app.use('/auth', buildAuthRouter(authController));
 app.use('/replay', buildReplayRouter(replayController));
 app.use(errorHandler);
 
-registerSocketHandlers(io);
+registerSocketHandlers(io, saveReplay);
 
 // --- Bootstrap ---
 connectDB()

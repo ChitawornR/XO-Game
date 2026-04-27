@@ -37,7 +37,7 @@ function ReplayDetail() {
         </p>
         <p>
           <b>Mode</b>
-          <span>{replay.isSinglePlayer ? 'Single player' : 'Multi player'}</span>
+          <span>{replay.isOnline ? 'Online' : replay.isSinglePlayer ? 'Single player' : 'Local multi'}</span>
         </p>
       </div>
 

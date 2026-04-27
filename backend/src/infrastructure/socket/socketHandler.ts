@@ -5,8 +5,31 @@ import { RoomManager } from './RoomManager';
 import { placeMove, isBoardFull } from '../../domain/services/BoardOps';
 import { findWinner } from '../../domain/services/WinnerChecker';
 import type { AuthPayload } from '../web/middlewares/authenticate';
+import type { SaveReplayUseCase } from '../../application/use-cases/SaveReplayUseCase';
+import type { Room } from '../../domain/entities/Room';
 
 const manager = new RoomManager();
+
+async function persistReplay(saveReplay: SaveReplayUseCase, room: Room): Promise<void> {
+  const moves = room.moves.map((m) => ({
+    row: m.row,
+    col: m.col,
+    player: m.player,
+  }));
+  if (moves.length === 0) return;
+  await Promise.all(
+    room.players.map((p) =>
+      saveReplay.execute({
+        size: room.size,
+        winner: room.winner,
+        moves,
+        isSinglePlayer: false,
+        isOnline: true,
+        userId: p.userId,
+      }).catch((err: unknown) => console.error('[replay save error]', err)),
+    ),
+  );
+}
 
 function getUser(socket: Socket): AuthPayload | null {
   try {
@@ -18,7 +41,7 @@ function getUser(socket: Socket): AuthPayload | null {
   }
 }
 
-export function registerSocketHandlers(io: Server): void {
+export function registerSocketHandlers(io: Server, saveReplay: SaveReplayUseCase): void {
   io.on('connection', (socket) => {
     const user = getUser(socket);
     if (!user) {
@@ -33,14 +56,14 @@ export function registerSocketHandlers(io: Server): void {
         socket.emit('error', { message: 'Invalid board size.' });
         return;
       }
-      const room = manager.create(socket.id, user.username, size);
+      const room = manager.create(socket.id, user.sub, user.username, size);
       void socket.join(room.code);
       socket.emit('room-created', { code: room.code });
     });
 
     // ------------------------------------------------------------------ join-room
     socket.on('join-room', ({ code }: { code: string }) => {
-      const room = manager.join(socket.id, user.username, code.toUpperCase());
+      const room = manager.join(socket.id, user.sub, user.username, code.toUpperCase());
       if (!room) {
         socket.emit('error', { message: 'Room not found or already full.' });
         return;
@@ -106,7 +129,10 @@ export function registerSocketHandlers(io: Server): void {
         moves: room.moves,
       });
 
-      if (room.status === 'ended') manager.remove(room.code);
+      if (room.status === 'ended') {
+        void persistReplay(saveReplay, room);
+        manager.remove(room.code);
+      }
     });
 
     // ------------------------------------------------------------------ disconnect
@@ -115,6 +141,7 @@ export function registerSocketHandlers(io: Server): void {
       if (!room || room.status === 'ended') return;
 
       room.status = 'ended';
+      void persistReplay(saveReplay, room);
       manager.remove(room.code);
 
       // Notify the other player

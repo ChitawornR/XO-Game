@@ -1,5 +1,7 @@
+import http from 'http';
 import express from 'express';
 import cors from 'cors';
+import { Server as SocketIOServer } from 'socket.io';
 
 import { env } from './infrastructure/config/env';
 import { connectDB } from './infrastructure/db/connect';
@@ -17,6 +19,7 @@ import { buildReplayRouter } from './infrastructure/web/routes/replay.routes';
 import { buildAuthRouter } from './infrastructure/web/routes/auth.routes';
 import { errorHandler } from './infrastructure/web/middlewares/errorHandler';
 import { apiRateLimiter } from './infrastructure/web/middlewares/rateLimit';
+import { registerSocketHandlers } from './infrastructure/socket/socketHandler';
 
 // --- Dependency wiring ---
 const replayRepo = new MongoReplayRepository();
@@ -34,26 +37,29 @@ const authController = new AuthController(register, login);
 
 // --- Express app ---
 const app = express();
+const httpServer = http.createServer(app);
 
-app.use(
-  cors({
+const io = new SocketIOServer(httpServer, {
+  cors: {
     origin: env.CORS_ORIGINS,
-    methods: ['GET', 'POST', 'DELETE'],
-  })
-);
+    methods: ['GET', 'POST'],
+  },
+});
+
+app.use(cors({ origin: env.CORS_ORIGINS, methods: ['GET', 'POST', 'DELETE'] }));
 app.use(express.json());
 app.use(apiRateLimiter);
 
 app.use('/auth', buildAuthRouter(authController));
 app.use('/replay', buildReplayRouter(replayController));
-
-// Global error handler must come last
 app.use(errorHandler);
+
+registerSocketHandlers(io);
 
 // --- Bootstrap ---
 connectDB()
   .then(() => {
-    app.listen(env.PORT, () =>
+    httpServer.listen(env.PORT, () =>
       console.log(`Server running on PORT ${env.PORT}`)
     );
   })

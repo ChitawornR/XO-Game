@@ -13,6 +13,7 @@ import Replay from './presentation/pages/Replay'
 import ReplayDetail from './presentation/pages/ReplayDetail'
 import Login from './presentation/pages/Login'
 import Register from './presentation/pages/Register'
+import OnlineRoom from './presentation/pages/OnlineRoom'
 import type { ReplayApi } from './application/ports/ReplayApi'
 import './presentation/styles/App.css'
 
@@ -44,6 +45,7 @@ function App() {
           <Route path="/play" element={<ProtectedRoute><Play /></ProtectedRoute>} />
           <Route path="/replay" element={<ProtectedRoute><Replay /></ProtectedRoute>} />
           <Route path="/replay/:id" element={<ProtectedRoute><ReplayDetail /></ProtectedRoute>} />
+          <Route path="/online" element={<ProtectedRoute><OnlineRoom /></ProtectedRoute>} />
         </Routes>
         <RulesPopup open={rulesOpen} onClose={() => setRulesOpen(false)} />
       </div>

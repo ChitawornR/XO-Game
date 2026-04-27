@@ -3,6 +3,25 @@
 All notable changes to this project are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased] — v1.3.0 Auth
+
+### Planned — Backend
+- `User` domain entity (id, username, email, passwordHash, createdAt)
+- `AuthError` domain errors (`InvalidCredentialsError`, `UserAlreadyExistsError`)
+- `UserRepository` port + `MongoUserRepository` implementation
+- `RegisterUseCase` (bcrypt password hashing) and `LoginUseCase` (JWT signing)
+- `POST /auth/register` and `POST /auth/login` routes
+- `authenticate` JWT middleware — verifies token and attaches `req.user`
+- Optional `userId` field on Replay (backward-compatible; existing replays unaffected)
+- `POST /replay` and `DELETE /replay/:id` protected behind `authenticate`
+
+### Planned — Frontend
+- `AuthApi` port + `HttpAuthApi` implementation (stores JWT in `localStorage`)
+- `AuthContext` provider exposing `currentUser`, `login`, `logout`
+- `Login` and `Register` pages
+- Navbar shows username and logout button when authenticated
+- Delete and Save Replay buttons hidden from unauthenticated users
+
 ## [1.2.1] - 2026-04-27
 
 ### Fixed

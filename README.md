@@ -70,7 +70,7 @@ npm install
 
 ```bash
 cd frontend
-pnpm install
+npm install
 ```
 
 ## Run

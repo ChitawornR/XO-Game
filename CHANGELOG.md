@@ -3,6 +3,34 @@
 All notable changes to this project are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.1.1] - 2026-04-28
+
+### Added
+- **Mobile responsive layout** across all pages — media queries (`@media (max-width: 768px)` and `@media (max-width: 480px)`) added to `App.css`, `NavBar.css`, `InputSizeForm.css`, `BoardGame.css`, `OnlineRoom.css`, `Auth.css`, `Replay.css`, `ReplayDetail.css`, `Popup.css`.
+  - NavBar now wraps to a 2-row layout on small screens (logo + actions on top, nav links full-width below)
+  - Home form stacks the three mode buttons vertically on phones; difficulty chips stretch to full width
+  - Board cells use `clamp(34px, 9vw, 50px)` on phones so 5×5+ boards fit without horizontal scroll
+  - Online lobby join row stacks input + button on narrow viewports
+  - Replay list and detail grids collapse to 1–2 columns on phones
+
+### Changed
+- `NavBar.tsx` — inline `style={{ display: 'flex', ... }}` on actions wrapper replaced with `.navActions` class so it can be targeted by media queries
+- Touched font-sizes on inputs are ≥ 16px on mobile to prevent iOS Safari zoom-on-focus
+
+### Fixed
+- **Online lobby board-size input**: was a controlled `type="number"` defaulted to `3` that could not be cleared (any empty string fell back to `3`), making it impossible to delete the value and type a new one. Now mirrors the home form pattern: starts empty, `value={size ?? ''}`, validates `size >= 3` only on "Create Room" with an inline error message. Number-spinner buttons are also hidden via CSS so the field reads as a plain text input on desktop.
+
+## [2.1.0] - 2026-04-27
+
+### Added
+- **Online game replays** — completed online matches are now persisted to the replay store for both players, so each side can review the game from `/replay`.
+
+## [2.0.2] - 2026-04-27
+
+### Fixed
+- XO-Game logo in the navbar now navigates back to `/` (Home).
+- "Join" button in the online lobby sized correctly so it stops collapsing or stretching against the room-code input.
+
 ## [2.0.1] - 2026-04-27
 
 ### Fixed
@@ -156,3 +184,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the 
 [2.0.0]: https://github.com/ChitawornR/XO-Game/releases/tag/v2.0.0
 
 [2.0.1]: https://github.com/ChitawornR/XO-Game/releases/tag/v2.0.1
+
+[2.0.2]: https://github.com/ChitawornR/XO-Game/releases/tag/v2.0.2
+
+[2.1.0]: https://github.com/ChitawornR/XO-Game/releases/tag/v2.1.0
+
+[2.1.1]: https://github.com/ChitawornR/XO-Game/releases/tag/v2.1.1

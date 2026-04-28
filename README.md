@@ -4,82 +4,109 @@
   <br>
 </h1>
 
-<h4 align="center">Tic-Tac-Toe with Single/Multi-Player, Smart Bot & Match Replays.</h4>
+<h4 align="center">Tic-Tac-Toe with Single/Multi-Player, Smart Bot, Auth & Online Multiplayer.</h4>
 
 ## Requirements
 
-- **Node.js ≥ 18 (LTS)** and **npm ≥ 10** (or yarn/pnpm)
-    - Check versions: `node -v` / `npm -v`
-- **MongoDB Compass** (Recommended for browsing the DB)
-    - [Download MongoDB Compass(GUI)](https://www.mongodb.com/try/download/compass)
-- **Git** (to clone the project)
-- **Modern browser** (Chrome/Edge/Firefox)
-
-## Setup
-Backend Structure:
-```
-xo-game/
-└─ backend/
-   ├─ models/
-   │  └─ Replay.js
-   ├─ routers/
-   │  └─ replay.js
-   ├─ server.js
-   └─ .env             # create this file
-
-```
-in .env file:
-```bash
-# MongoDB URI connection string
-MONGO_URI = mongodb://localhost:27017/XOGame
-
-# Port for backend server
-# If change PORT, You must change port in function fetch in frontend the same
-# location of port in frontend you need to change
-# components
-# BoardGame.jsx => sendReplayToServer
-# ReplayItem.jsx => handleDelete
-# pages
-# Replay.jsx => fetchReplay 
-PORT = 8081
-```
+- **Node.js ≥ 18 (LTS)** — check with `node -v`
+- **npm ≥ 10** (backend) · **pnpm ≥ 9** (frontend) — check with `npm -v` / `pnpm -v`
+  - Install pnpm: `npm install -g pnpm`
+- **MongoDB** running locally or a [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) connection string
+  - Local default: `mongodb://localhost:27017/XOGame`
+  - GUI (optional): [MongoDB Compass](https://www.mongodb.com/try/download/compass)
+- **Git**
 
 ## Installation
-1. Clone the project to your device:
+
+### 1. Clone the repository
+
 ```bash
 git clone https://github.com/ChitawornR/XO-Game.git
+cd XO-Game
 ```
-2. Navigate to project directory:
+
+### 2. Set up environment variables
+
+**Backend** — copy the example file and fill in the values:
+
 ```bash
-cd xo-game
+cp backend/.env.example backend/.env
 ```
-## Run project
-  ### Frontend
-  1. Navigate to the frontend directory:
-  ```bash
-  cd frontend
-  ```
-  2. Install dependencies:
-  ```bash
-  npm install
-  ```
-  3. Start the frontend:
-  ```bash
-  npm run dev
-  ```
-  ### Backend
-  1. Open a new terminal and navigate to the backend directory:
-  ```bash
-  cd backend
-  ```
-  2. Install dependencies:
-  ```bash
-  npm install
-  ```
-  3. Start the backend server:
-  ```bash
-  npm run dev
-  ```
+
+`backend/.env`:
+
+```env
+MONGO_URI=mongodb://localhost:27017/XOGame
+PORT=8081
+CORS_ORIGINS=http://localhost:5173
+JWT_SECRET=replace_with_a_random_32char_secret
+```
+
+> `JWT_SECRET` must be at least 16 characters. Generate one with:
+> `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`
+
+**Frontend** — copy the example file (default value works for local dev):
+
+```bash
+cp frontend/.env.example frontend/.env
+```
+
+`frontend/.env`:
+
+```env
+VITE_API_URL=http://localhost:8081
+```
+
+### 3. Install dependencies
+
+**Backend:**
+
+```bash
+cd backend
+npm install
+```
+
+**Frontend:**
+
+```bash
+cd frontend
+pnpm install
+```
+
+## Run
+
+Open **two terminals** — one for each app.
+
+**Terminal 1 — Backend:**
+
+```bash
+cd backend
+npm run dev
+```
+
+Server starts at `http://localhost:8081`
+
+**Terminal 2 — Frontend:**
+
+```bash
+cd frontend
+pnpm dev
+```
+
+App opens at `http://localhost:5173`
+
+## Other scripts
+
+| Directory | Command | Description |
+|---|---|---|
+| `backend` | `npm test` | Run backend unit tests (Vitest) |
+| `backend` | `npm run typecheck` | TypeScript type-check without emitting |
+| `backend` | `npm run build` | Compile to `dist/` |
+| `backend` | `npm start` | Run compiled build (`dist/main.js`) |
+| `frontend` | `pnpm test` | Run frontend unit tests (Vitest) |
+| `frontend` | `pnpm run typecheck` | TypeScript type-check without emitting |
+| `frontend` | `pnpm run build` | Production build to `dist/` |
+| `frontend` | `pnpm run lint` | ESLint check |
 
 ## How I design this program and Algorithm
   ### Objective

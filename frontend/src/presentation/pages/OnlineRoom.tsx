@@ -9,8 +9,9 @@ import '../styles/OnlineRoom.css'
 function OnlineRoom() {
   const navigate = useNavigate()
   const { user } = useAuth()
-  const [size, setSize] = useState<number>(3)
+  const [size, setSize] = useState<number | null>(null)
   const [joinCode, setJoinCode] = useState('')
+  const [sizeError, setSizeError] = useState<string | null>(null)
 
   const socket = useMemo(() => {
     const token = localStorage.getItem('xo_token') ?? ''
@@ -23,6 +24,15 @@ function OnlineRoom() {
   function handleLeave() {
     disconnectSocket()
     navigate('/')
+  }
+
+  function handleCreateRoom() {
+    if (!size || size < 3) {
+      setSizeError('Board size must be at least 3.')
+      return
+    }
+    setSizeError(null)
+    createRoom(size)
   }
 
   // ---- Game over ----
@@ -87,18 +97,24 @@ function OnlineRoom() {
 
       <div className="onlineSection">
         <div className="onlineCreateBlock">
-          <label className="onlineLabel">Board size</label>
+          <label className="onlineLabel" htmlFor="onlineSizeInput">Board size</label>
           <input
+            id="onlineSizeInput"
             type="number"
+            inputMode="numeric"
             min={3}
             max={10}
-            value={size}
-            onChange={(e) => setSize(parseInt(e.target.value, 10) || 3)}
+            placeholder="Ex: 3 or 5"
+            value={size ?? ''}
+            onChange={(e) =>
+              setSize(e.target.value === '' ? null : parseInt(e.target.value, 10))
+            }
             className="onlineSizeInput"
           />
+          {sizeError && <p className="onlineError">{sizeError}</p>}
           <button
             className="onlineBtn create"
-            onClick={() => createRoom(size)}
+            onClick={handleCreateRoom}
             disabled={phase.type === 'joining'}
           >
             Create Room

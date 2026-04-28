@@ -74,3 +74,59 @@ ul.navUl li a.active {
     background: var(--btn-primary-bg);
     font-weight: 600;
 }
+
+.navActions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navBar {
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 12px 16px;
+    }
+
+    .navBar h1 {
+        font-size: 18px;
+    }
+
+    ul.navUl {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+    }
+
+    ul.navUl li a {
+        padding: 6px 14px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navBar {
+        padding: 10px 12px;
+    }
+
+    .navBar h1 {
+        font-size: 16px;
+    }
+
+    ul.navUl {
+        padding: 4px 6px;
+    }
+
+    ul.navUl li a {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .navUser {
+        font-size: 12px;
+        gap: 6px;
+    }
+}

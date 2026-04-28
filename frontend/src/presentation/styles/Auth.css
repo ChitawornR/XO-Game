@@ -106,3 +106,28 @@
 .navUser span {
     color: var(--accent-success);
 }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .authPage {
+        margin: 32px auto;
+        padding: 28px 22px;
+    }
+}
+
+@media (max-width: 480px) {
+    .authPage {
+        margin: 16px auto;
+        padding: 22px 16px;
+    }
+
+    .authPage h2 {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .authField input {
+        font-size: 16px;
+        padding: 11px 14px;
+    }
+}

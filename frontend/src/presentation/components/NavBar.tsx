@@ -30,7 +30,7 @@ function NavBar({ onOpenRules }: Props) {
           </li>
         )}
       </ul>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+      <div className="navActions">
         {user ? (
           <div className="navUser">
             <span>{user.username}</span>

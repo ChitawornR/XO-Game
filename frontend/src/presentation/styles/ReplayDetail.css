@@ -73,5 +73,36 @@
     padding: 12px 18px;
 }
 
+/* Responsive */
+@media (max-width: 768px) {
+    .replayDetail {
+        margin: 16px auto;
+        padding: 20px 18px;
+    }
+
+    .detailText {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 10px 18px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .replayDetail {
+        margin: 12px auto;
+        padding: 16px 14px;
+    }
+
+    .detailText {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px 12px;
+    }
+
+    .stepNav button {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+}
+
 /* Reuse .cell from BoardGame.css; but boards in detail need slightly different
    container rules so we don't override BoardGame.css. Keep this file minimal. */

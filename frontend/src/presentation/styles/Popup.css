@@ -118,3 +118,39 @@
 .popupResult button.playAgain:hover {
     box-shadow: var(--shadow-glow-x);
 }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .popup {
+        padding: 16px;
+    }
+
+    .popupInner {
+        padding: 24px 20px;
+    }
+
+    .popupInner h2 {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .popup {
+        padding: 12px;
+    }
+
+    .popupInner {
+        padding: 20px 16px;
+    }
+
+    .popupResult h2 {
+        font-size: 22px;
+        margin-bottom: 18px;
+    }
+
+    .popupInner .closeBtn {
+        top: 10px;
+        right: 10px;
+        font-size: 12px;
+    }
+}

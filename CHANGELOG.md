@@ -3,6 +3,15 @@
 All notable changes to this project are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.1.2] - 2026-04-30
+
+### Added
+- **404 Not Found page** (`NotFound.tsx`) — displayed for any unknown URL, styled with the hi-tech dark theme (gradient `404` code, glass card, responsive breakpoints). Includes a **"Back to Home"** button that navigates to `/`.
+
+### Fixed
+- **Page refresh causes 404** — added `<Route path="*">` catch-all as the last route in `main.tsx` so React Router handles all unmatched paths instead of falling through to a blank screen.
+- **SPA history-API fallback in production** — `backend/src/main.ts` now detects `frontend/dist/` and serves static assets + redirects all unmatched `GET` requests to `index.html`, allowing refreshing any route when the app is served from the backend in production.
+
 ## [2.1.1] - 2026-04-28
 
 ### Added
@@ -188,5 +197,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the 
 [2.0.2]: https://github.com/ChitawornR/XO-Game/releases/tag/v2.0.2
 
 [2.1.0]: https://github.com/ChitawornR/XO-Game/releases/tag/v2.1.0
+
+[2.1.2]: https://github.com/ChitawornR/XO-Game/releases/tag/v2.1.2
 
 [2.1.1]: https://github.com/ChitawornR/XO-Game/releases/tag/v2.1.1

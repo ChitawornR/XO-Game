@@ -1,4 +1,6 @@
 import http from 'http';
+import path from 'path';
+import fs from 'fs';
 import express from 'express';
 import cors from 'cors';
 import { Server as SocketIOServer } from 'socket.io';
@@ -52,6 +54,16 @@ app.use(apiRateLimiter);
 
 app.use('/auth', buildAuthRouter(authController));
 app.use('/replay', buildReplayRouter(replayController));
+
+// --- SPA static serving (production) ---
+const clientDist = path.resolve(__dirname, '../../frontend/dist');
+if (fs.existsSync(clientDist)) {
+  app.use(express.static(clientDist));
+  app.get('*', (_req, res) => {
+    res.sendFile(path.join(clientDist, 'index.html'));
+  });
+}
+
 app.use(errorHandler);
 
 registerSocketHandlers(io, saveReplay);

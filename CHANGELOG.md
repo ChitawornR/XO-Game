@@ -3,6 +3,11 @@
 All notable changes to this project are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.1.3] - 2026-04-30
+
+### Fixed
+- **Vercel `NOT_FOUND` on page refresh** — added `frontend/vercel.json` with a catch-all rewrite rule (`"source": "/(.*)" → "destination": "/index.html"`) so Vercel's CDN forwards every path to the SPA entry point instead of returning 404.
+
 ## [2.1.2] - 2026-04-30
 
 ### Added
@@ -197,6 +202,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the 
 [2.0.2]: https://github.com/ChitawornR/XO-Game/releases/tag/v2.0.2
 
 [2.1.0]: https://github.com/ChitawornR/XO-Game/releases/tag/v2.1.0
+
+[2.1.3]: https://github.com/ChitawornR/XO-Game/releases/tag/v2.1.3
 
 [2.1.2]: https://github.com/ChitawornR/XO-Game/releases/tag/v2.1.2
 

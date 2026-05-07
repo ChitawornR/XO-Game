@@ -1,0 +1,334 @@
+/* ---------------------------------------------------------------------------
+ * Chess board CSS tokens (complementing App.css tokens)
+ * ---------------------------------------------------------------------- */
+
+:root {
+  --accent-chess-light: #d4c9a8;      /* cream — light squares */
+  --accent-chess-dark: #7a6242;       /* warm brown — dark squares */
+  --accent-chess-light-hover: #e8dfc0;
+  --accent-chess-dark-hover: #8c7250;
+  --sq-size: clamp(40px, 9vw, 64px);
+}
+
+/* ---------------------------------------------------------------------------
+ * Board wrapper
+ * ---------------------------------------------------------------------- */
+
+.chessBoardWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ---------------------------------------------------------------------------
+ * Outer container with rank labels
+ * ---------------------------------------------------------------------- */
+
+.chessBoardOuter {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.rankLabels {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.rankLabel {
+  width: 18px;
+  height: var(--sq-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  user-select: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * File labels (a–h)
+ * ---------------------------------------------------------------------- */
+
+.fileLabels {
+  display: flex;
+  margin-left: 22px; /* align under board (offset for rank label column) */
+}
+
+.fileLabel {
+  width: var(--sq-size);
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  user-select: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * Board grid
+ * ---------------------------------------------------------------------- */
+
+.chessBoard {
+  display: grid;
+  grid-template-columns: repeat(8, var(--sq-size));
+  grid-template-rows: repeat(8, var(--sq-size));
+  border: 2px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft), 0 0 0 1px rgba(168, 85, 247, 0.15);
+  cursor: pointer;
+}
+
+/* ---------------------------------------------------------------------------
+ * Individual squares
+ * ---------------------------------------------------------------------- */
+
+.chessSquare {
+  width: var(--sq-size);
+  height: var(--sq-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: filter 0.1s ease;
+}
+
+.chessSquare.light {
+  background: var(--accent-chess-light);
+}
+
+.chessSquare.dark {
+  background: var(--accent-chess-dark);
+}
+
+/* Hover state — only when interactive (not bot's pieces) */
+.chessSquare:hover {
+  filter: brightness(1.12);
+}
+
+/* ---------------------------------------------------------------------------
+ * Highlights
+ * ---------------------------------------------------------------------- */
+
+/* Selected square — cyan ring */
+.chessSquare.selected {
+  outline: 3px solid var(--accent-x);
+  outline-offset: -3px;
+  z-index: 1;
+}
+
+/* Legal move — empty target: green centre dot */
+.chessSquare.legalMove::after {
+  content: '';
+  position: absolute;
+  width: 30%;
+  height: 30%;
+  border-radius: 50%;
+  background: rgba(74, 222, 128, 0.75);
+  pointer-events: none;
+}
+
+/* Legal move — capture target: red ring */
+.chessSquare.captureTarget::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  border: 3px solid rgba(248, 113, 113, 0.85);
+  pointer-events: none;
+}
+
+/* King in check — red background pulse */
+.chessSquare.inCheck {
+  background: rgba(248, 113, 113, 0.45) !important;
+  animation: checkPulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes checkPulse {
+  from { background: rgba(248, 113, 113, 0.35); }
+  to   { background: rgba(248, 113, 113, 0.65); }
+}
+
+/* ---------------------------------------------------------------------------
+ * Piece rendering (Unicode chess characters)
+ * ---------------------------------------------------------------------- */
+
+.chessPiece {
+  font-size: clamp(22px, 5.5vw, 42px);
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transition: transform 0.1s ease;
+}
+
+/* White pieces on light squares need dark outline to be visible */
+.chessPiece.white {
+  color: #fff8f0;
+  text-shadow:
+    0 0 2px #333,
+    1px 1px 0 #444,
+    -1px -1px 0 #444,
+    1px -1px 0 #444,
+    -1px 1px 0 #444;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.6));
+}
+
+/* Black pieces need light outline for visibility on dark squares */
+.chessPiece.black {
+  color: #1a1008;
+  text-shadow:
+    0 0 2px rgba(255,255,255,0.5),
+    1px 1px 0 rgba(200,180,120,0.5),
+    -1px -1px 0 rgba(200,180,120,0.5);
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.4));
+}
+
+/* Animate piece on the selected square */
+.chessSquare.selected .chessPiece {
+  transform: scale(1.1);
+}
+
+/* ---------------------------------------------------------------------------
+ * Status / turn bar
+ * ---------------------------------------------------------------------- */
+
+.chessTurnBar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  background: var(--bg-elev-1);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.chessTurnDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.chessTurnDot.white {
+  background: #fff8f0;
+  box-shadow: 0 0 6px rgba(255,255,255,0.6);
+}
+
+.chessTurnDot.black {
+  background: #2a1f0e;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.chessStatus {
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.chessStatus.check {
+  background: rgba(251, 191, 36, 0.15);
+  color: var(--accent-warn);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+}
+
+.chessStatus.checkmate {
+  background: rgba(248, 113, 113, 0.15);
+  color: var(--accent-danger);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+}
+
+.chessStatus.stalemate,
+.chessStatus.draw {
+  background: rgba(148, 163, 184, 0.1);
+  color: var(--text-muted);
+  border: 1px solid var(--border-soft);
+}
+
+/* ---------------------------------------------------------------------------
+ * Board actions row
+ * ---------------------------------------------------------------------- */
+
+.chessBoardActions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ---------------------------------------------------------------------------
+ * Move history
+ * ---------------------------------------------------------------------- */
+
+.chessMoveHistory {
+  max-width: 320px;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  background: var(--bg-elev-1);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  scrollbar-width: thin;
+}
+
+.chessMoveHistory::-webkit-scrollbar {
+  width: 4px;
+}
+
+.chessMoveHistory::-webkit-scrollbar-thumb {
+  background: var(--border-soft);
+  border-radius: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+ * Responsive
+ * ---------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  :root {
+    --sq-size: clamp(36px, 11vw, 54px);
+  }
+
+  .chessTurnBar {
+    font-size: 13px;
+    padding: 8px 14px;
+  }
+
+  .fileLabel,
+  .rankLabel {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --sq-size: clamp(32px, 11.5vw, 46px);
+  }
+
+  .chessPiece {
+    font-size: clamp(18px, 6vw, 30px);
+  }
+
+  .chessBoardActions button {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+}

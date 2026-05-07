@@ -1,0 +1,171 @@
+/* ---------------------------------------------------------------------------
+ * ChessHome — glass-card mode selector matching the existing XO style
+ * ---------------------------------------------------------------------- */
+
+.chessHomeWrap {
+  max-width: 520px;
+  margin: 48px auto;
+  padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 20px;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative gradient bar at top — chess purple accent */
+.chessHomeWrap::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent-chess),
+    var(--accent-x),
+    transparent
+  );
+  opacity: 0.8;
+}
+
+.chessHomeTitle {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--text-primary);
+}
+
+.chessHomePiece {
+  font-size: 2rem;
+  margin-right: 8px;
+}
+
+.chessHomeSubtitle {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: -8px;
+}
+
+.chessHomeDivider {
+  height: 1px;
+  background: var(--border-soft);
+}
+
+.chessHomeModeLabel {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.chessModeBtns {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.chessModeBtns button {
+  flex: 1;
+  justify-content: center;
+  padding: 14px 18px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+}
+
+.chessModeBtns .singlePlayer {
+  background: linear-gradient(135deg, var(--accent-chess) 0%, #6366f1 100%);
+  border-color: transparent;
+  color: var(--btn-primary-text);
+}
+
+.chessModeBtns .singlePlayer:hover:not(:disabled) {
+  box-shadow: 0 0 18px var(--accent-chess-glow);
+  transform: translateY(-2px);
+}
+
+.chessModeBtns .multiPlayer {
+  background: var(--btn-primary-bg);
+  border-color: transparent;
+  color: var(--btn-primary-text);
+}
+
+.chessModeBtns .multiPlayer:hover:not(:disabled) {
+  box-shadow: var(--shadow-glow-x);
+  transform: translateY(-2px);
+}
+
+.chessHomeBack {
+  display: flex;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.chessHomeBack a,
+.chessHomeBack button {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-dim);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.chessHomeBack a:hover,
+.chessHomeBack button:hover {
+  color: var(--text-muted);
+  transform: none;
+  box-shadow: none;
+  border-color: transparent;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .chessHomeWrap {
+    margin: 24px auto;
+    padding: 28px 20px;
+    gap: 16px;
+  }
+
+  .chessModeBtns {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .chessModeBtns button {
+    padding: 12px 14px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chessHomeWrap {
+    margin: 16px auto;
+    padding: 22px 16px;
+  }
+
+  .chessHomeTitle {
+    font-size: 18px;
+  }
+}

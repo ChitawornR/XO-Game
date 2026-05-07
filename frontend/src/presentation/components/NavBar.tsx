@@ -19,7 +19,7 @@ function NavBar({ onOpenRules }: Props) {
 
   return (
     <div className="navBar">
-      <Link to="/"><h1>XO-Game</h1></Link>
+      <Link to="/"><h1>Game Hub</h1></Link>
       <ul className="navUl">
         <li>
           <NavLink to="/">Home</NavLink>

@@ -3,6 +3,43 @@
 All notable changes to this project are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.3.0] - 2026-05-07
+
+### Added — Game Hub
+- **`/` is now a Game Hub**, not the XO mode picker. Logged-in users see a card-based picker with two games — **XO Game** and **Chess** — and click a card to enter that game's flow.
+- New page `presentation/pages/GameHub.tsx` + `presentation/styles/GameHub.css` with the existing hi-tech glass theme.
+- New route `/xo` — the existing `Home` (XO `InputSizeForm` mode picker) moved here. The page now shows a small "XO Game — Select Mode" heading.
+- New routes `/chess` and `/chess/play` for the chess feature.
+- `NavBar` wordmark changed from `XO-Game` to `Game Hub`.
+- `index.html` `<title>` updated to `Game Hub`.
+
+### Added — Chess (International, 8×8, single-player + local multiplayer)
+- **Full chess domain layer** under `domain/chess/` — pure, decoupled from React:
+  - Entities: `Piece`, `Square`, `ChessBoard`, `ChessMove`, `ChessGameState`
+  - Services: `attackMap` (geometric attack detection), `moveGenerator` (pseudo-legal + legal moves with check filter, castling, en passant, promotion), `checkDetector` (`isInCheck`, `isCheckmate`, `isStalemate`, `findKing`), `boardOps` (`applyMove` handles castling rook move, en-passant capture, promotion, clocks, status)
+  - Bots: `ChessBotStrategy` interface, `RandomBot` (picks a random legal move, auto-promotes to queen). Difficulty: `easy` only for v1.
+- **`useChessGame` hook** (`useReducer` state machine) — click flow: select piece → see legal destinations → click destination → move applied. In single-player mode, the bot moves 300 ms after the player. Pawns auto-promote to queen for v1 (`promotionPending` field plumbed for a future modal).
+- **`ChessBoard` component** — 8×8 grid with Unicode pieces (♔♕♖♗♘♙♚♛♜♝♞♟), cyan ring on selected square, green dot on legal empty target, red ring on capture target, pulsing red highlight on king when in check, rank/file labels (a–h, 8–1).
+- **`ChessHome` page** — mode selector with `vs Bot` and `Local Multiplayer` buttons; `Back to Hub` link.
+- **`ChessPlay` page** — turn bar, status display ("Check!", "Checkmate", "Stalemate", "Draw — 50-move rule"), reset, mode-select navigation, move counter.
+- New design tokens `--accent-chess` and `--accent-chess-glow` in `App.css`.
+- **8 Vitest sanity tests** for `moveGenerator` (initial position, pawn double-push, knight jumps, checkmate detection, castling allowed/blocked).
+
+### Chess rules implemented
+All piece movements, captures, check / checkmate / stalemate, castling (kingside + queenside with full rules), en passant, pawn promotion (auto-queen), 50-move-rule draw.
+
+### Chess rules deferred (not in v2.3.0)
+Threefold-repetition draw, insufficient-material draw, promotion-choice modal, resign / draw-by-agreement buttons, chess online multiplayer, chess replay save/load. All tracked in `CHECKLIST.md`.
+
+### Changed
+- Project tagline shifts: this is no longer "XO-Game" — it's a **multi-game hub** that starts with XO and Chess. XO logic is unchanged; chess lives in entirely separate folders (`domain/chess/`, dedicated pages/components).
+
+### Notes
+- Sub-Agent 1 (sonnet 4.6) handled hub + routing.
+- Sub-Agent 2 (sonnet 4.6) handled the entire chess feature.
+- No XO files under `domain/`, `application/hooks/useGame.ts`, `BoardGame.tsx`, or `OnlineBoardGame.tsx` were modified — XO behavior unchanged.
+- Build passes (`vite build`), typecheck clean, all 23 frontend tests pass (15 XO + 8 chess).
+
 ## [2.2.0] - 2026-05-07
 
 ### Added
@@ -217,6 +254,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the 
 [2.0.2]: https://github.com/ChitawornR/XO-Game/releases/tag/v2.0.2
 
 [2.1.0]: https://github.com/ChitawornR/XO-Game/releases/tag/v2.1.0
+
+[2.3.0]: https://github.com/ChitawornR/XO-Game/releases/tag/v2.3.0
 
 [2.2.0]: https://github.com/ChitawornR/XO-Game/releases/tag/v2.2.0
 

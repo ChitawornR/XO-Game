@@ -7,7 +7,10 @@ import { env } from './infrastructure/config/env'
 import { AuthProvider, useAuth } from './presentation/context/AuthContext'
 import { RulesPopup } from './presentation/components/Popup'
 import NavBar from './presentation/components/NavBar'
+import GameHub from './presentation/pages/GameHub'
 import Home from './presentation/pages/Home'
+import ChessHome from './presentation/pages/ChessHome'
+import ChessPlay from './presentation/pages/ChessPlay'
 import Play from './presentation/pages/Play'
 import Replay from './presentation/pages/Replay'
 import ReplayDetail from './presentation/pages/ReplayDetail'
@@ -42,7 +45,10 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route index path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route index path="/" element={<ProtectedRoute><GameHub /></ProtectedRoute>} />
+          <Route path="/xo" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route path="/chess" element={<ProtectedRoute><ChessHome /></ProtectedRoute>} />
+          <Route path="/chess/play" element={<ProtectedRoute><ChessPlay /></ProtectedRoute>} />
           <Route path="/play" element={<ProtectedRoute><Play /></ProtectedRoute>} />
           <Route path="/replay" element={<ProtectedRoute><Replay /></ProtectedRoute>} />
           <Route path="/replay/:id" element={<ProtectedRoute><ReplayDetail /></ProtectedRoute>} />

@@ -1,0 +1,292 @@
+/* ---------------------------------------------------------------------------
+ * GameHub — card-based game picker
+ * ------------------------------------------------------------------------ */
+
+.gameHub {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding: 48px 0;
+}
+
+.gameHub__header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.gameHub__title {
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    background: linear-gradient(135deg, var(--accent-x) 0%, var(--accent-o) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.gameHub__subtitle {
+    font-size: 15px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    letter-spacing: 0.02em;
+}
+
+/* ---------------------------------------------------------------------------
+ * Cards grid
+ * ------------------------------------------------------------------------ */
+
+.gameHub__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+    width: 100%;
+    max-width: 780px;
+}
+
+.gameCard {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    padding: 40px 32px 32px;
+    background: var(--bg-glass);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    overflow: hidden;
+}
+
+/* top accent line */
+.gameCard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.gameCard--xo::before {
+    background: linear-gradient(90deg, transparent, var(--accent-x), var(--accent-o), transparent);
+}
+
+.gameCard--chess::before {
+    background: linear-gradient(90deg, transparent, var(--accent-chess), var(--accent-o), transparent);
+}
+
+.gameCard:hover {
+    transform: translateY(-4px);
+}
+
+.gameCard--xo:hover {
+    border-color: var(--accent-x);
+    box-shadow: var(--shadow-soft), 0 0 32px var(--accent-x-glow);
+}
+
+.gameCard--chess:hover {
+    border-color: var(--accent-chess);
+    box-shadow: var(--shadow-soft), 0 0 32px var(--accent-chess-glow);
+}
+
+/* ---------------------------------------------------------------------------
+ * Card icon
+ * ------------------------------------------------------------------------ */
+
+.gameCard__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: var(--radius-lg);
+    font-size: 36px;
+    flex-shrink: 0;
+}
+
+.gameCard--xo .gameCard__icon {
+    background: rgba(34, 211, 238, 0.12);
+    color: var(--accent-x);
+    border: 1px solid rgba(34, 211, 238, 0.25);
+}
+
+.gameCard--chess .gameCard__icon {
+    background: rgba(168, 85, 247, 0.12);
+    color: var(--accent-chess);
+    border: 1px solid rgba(168, 85, 247, 0.25);
+}
+
+/* XO wordmark inside the icon box */
+.gameCard__xoMark {
+    font-family: var(--font-mono);
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    background: linear-gradient(135deg, var(--accent-x) 0%, var(--accent-o) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    line-height: 1;
+}
+
+/* ---------------------------------------------------------------------------
+ * Card body
+ * ------------------------------------------------------------------------ */
+
+.gameCard__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+}
+
+.gameCard__name {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+}
+
+.gameCard__desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.55;
+    max-width: 240px;
+}
+
+/* ---------------------------------------------------------------------------
+ * Play CTA button
+ * ------------------------------------------------------------------------ */
+
+.gameCard__cta {
+    margin-top: 4px;
+    padding: 11px 28px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    font-family: var(--font-sans);
+}
+
+.gameCard--xo .gameCard__cta {
+    background: linear-gradient(135deg, var(--accent-x) 0%, #6366f1 100%);
+    color: var(--btn-primary-text);
+}
+
+.gameCard--xo .gameCard__cta:hover {
+    box-shadow: var(--shadow-glow-x);
+    transform: translateY(-1px);
+}
+
+.gameCard--chess .gameCard__cta {
+    background: linear-gradient(135deg, var(--accent-chess) 0%, #6366f1 100%);
+    color: var(--btn-primary-text);
+}
+
+.gameCard--chess .gameCard__cta:hover {
+    box-shadow: var(--accent-chess-glow);
+    transform: translateY(-1px);
+}
+
+/* ---------------------------------------------------------------------------
+ * Responsive
+ * ------------------------------------------------------------------------ */
+
+@media (max-width: 768px) {
+    .gameHub {
+        padding: 32px 0;
+        gap: 28px;
+    }
+
+    .gameHub__title {
+        font-size: 1.6rem;
+    }
+
+    .gameHub__grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        max-width: 420px;
+    }
+
+    .gameCard {
+        padding: 28px 24px 24px;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 20px;
+        text-align: left;
+    }
+
+    .gameCard__body {
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .gameCard__desc {
+        max-width: none;
+    }
+
+    .gameCard__icon {
+        width: 56px;
+        height: 56px;
+        font-size: 28px;
+        flex-shrink: 0;
+    }
+
+    .gameCard__xoMark {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .gameHub {
+        padding: 24px 0;
+        gap: 20px;
+    }
+
+    .gameHub__title {
+        font-size: 1.35rem;
+    }
+
+    .gameHub__grid {
+        max-width: 100%;
+    }
+
+    .gameCard {
+        padding: 22px 18px 20px;
+        gap: 14px;
+    }
+
+    .gameCard__name {
+        font-size: 17px;
+    }
+
+    .gameCard__icon {
+        width: 48px;
+        height: 48px;
+        font-size: 24px;
+    }
+
+    .gameCard__xoMark {
+        font-size: 17px;
+    }
+
+    .gameCard__cta {
+        padding: 9px 22px;
+        font-size: 13px;
+    }
+}

@@ -1,7 +1,9 @@
-# XO-Game — Development Plan
+# Game Hub — Development Plan
 
-> เอกสารแผนพัฒนาเกม XO ในบทบาท **Game Owner** สำหรับการต่อยอดจากโค้ดที่เขียนตอนเข้าฝึกงาน เปิดให้คนทั่วไปเข้ามาเล่นได้
+> เอกสารแผนพัฒนา **Game Hub** — เริ่มต้นจากเกม XO (โค้ดที่เขียนตอนเข้าฝึกงาน) แล้วต่อยอดเป็น website รวมเกมหลายเกม เปิดให้คนทั่วไปเข้ามาเล่นได้
 > Stack ปัจจุบัน: **React 19 + Vite (Frontend)**, **Express + MongoDB (Backend)**
+>
+> ตั้งแต่ **v2.3.0** เป็นต้นไป โปรเจกต์นี้ไม่ใช่ "XO-Game" เพียงเกมเดียวอีกต่อไป — root path `/` กลายเป็น **Game Hub** ที่ผู้ใช้เลือกเกมได้ (XO, Chess, …)
 
 ---
 
@@ -35,6 +37,15 @@
 - Leaderboard, ELO rating
 - Replay sharing ผ่าน link
 - PWA / Mobile responsive
+
+### Phase 5 — Multi-Game Hub
+- Refactor root `/` เป็นหน้า **Game Hub** ที่เลือกเกมได้ (login first)
+- เพิ่มเกม **International Chess** ขนาด 8×8 (กำหนดขนาดไม่ได้)
+  - โหมด Single Player (vs Bot) และ Local Multiplayer
+  - แสดงช่องที่เดินได้ (highlighted legal moves) เมื่อกดที่ตัวหมาก
+  - Online มาในเฟสถัดไป (ไม่ทำในรอบนี้)
+- ห้ามกระทบ XO logic เดิม — chess อยู่ใน path / โฟลเดอร์แยก
+- Path: `/` (Hub) · `/xo` (XO mode picker) · `/chess` (Chess mode picker) · `/chess/play` (Chess game)
 
 ### Phase 4 — Deploy
 - Frontend → Vercel
@@ -326,4 +337,6 @@ hotfix/xxx       ← แก้บน main แล้ว merge กลับ develo
 
 ---
 
-> **เป้าหมายสุดท้าย:** เกม XO ที่มีโค้ดสะอาด, test ครอบคลุม, แก้ไขได้ง่าย, รองรับการเล่นออนไลน์, และต่อยอดเพิ่ม feature ใหม่ได้โดยไม่ต้องแตะ logic เดิม
+> **เป้าหมายสุดท้าย:** Game Hub ที่มีโค้ดสะอาด, test ครอบคลุม, แก้ไขได้ง่าย, รองรับการเล่นออนไลน์, และต่อยอดเพิ่มเกม / feature ใหม่ได้โดยไม่ต้องแตะ logic เกมเดิม
+>
+> **หลักการเพิ่มเกมใหม่:** สร้าง domain layer ใหม่แยก (เช่น `domain/chess/`), สร้าง hook + page + component ของตัวเอง, แล้ว register route + การ์ดบน `GameHub.tsx` — ไม่ต้องแก้ XO เลย

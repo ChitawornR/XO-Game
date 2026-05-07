@@ -78,18 +78,50 @@
     border-color: rgba(244, 114, 182, 0.35);
 }
 
+.boardActions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
 .resetBtn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     padding: 10px 18px;
-    margin: 16px auto 0;
     background: var(--btn-secondary-bg);
     border: 1px solid var(--border-strong);
     border-radius: var(--radius-md);
     color: var(--text-primary);
     font-weight: 500;
     cursor: pointer;
+}
+
+.undoRedoBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 14px;
+    background: var(--btn-secondary-bg);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.12s ease, border-color 0.12s ease, opacity 0.12s ease;
+}
+
+.undoRedoBtn:hover:not(:disabled) {
+    background: rgba(34, 211, 238, 0.1);
+    border-color: var(--accent-x);
+}
+
+.undoRedoBtn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
 }
 
 .boardGameWrap {

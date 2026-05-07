@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { RiResetLeftFill } from 'react-icons/ri'
+import { RiResetLeftFill, RiArrowGoBackLine, RiArrowGoForwardLine } from 'react-icons/ri'
 import { useGame } from '../../application/hooks/useGame'
 import { GameResultPopup } from './Popup'
 import { ReplayApiContext } from '../../main'
@@ -20,7 +20,7 @@ function BoardGame() {
   const location = useLocation()
   const { isSinglePlayer, size, difficulty } = location.state as LocationState
 
-  const { state, placeCell, reset, dismissNotification, persistReplay } = useGame(
+  const { state, placeCell, reset, dismissNotification, persistReplay, undo, redo, canUndo, canRedo } = useGame(
     size,
     isSinglePlayer,
     difficulty ?? 'easy',
@@ -67,10 +67,24 @@ function BoardGame() {
           )}
         </div>
 
-        <button onClick={reset} className="resetBtn">
-          <RiResetLeftFill fontSize={18} />
-          Reset board
-        </button>
+        <div className="boardActions">
+          {!isSinglePlayer && (
+            <>
+              <button onClick={undo} disabled={!canUndo} className="undoRedoBtn" title="Undo">
+                <RiArrowGoBackLine fontSize={16} />
+                Undo ({state.past.length})
+              </button>
+              <button onClick={redo} disabled={!canRedo} className="undoRedoBtn" title="Redo">
+                <RiArrowGoForwardLine fontSize={16} />
+                Redo ({state.future.length})
+              </button>
+            </>
+          )}
+          <button onClick={reset} className="resetBtn">
+            <RiResetLeftFill fontSize={18} />
+            Reset board
+          </button>
+        </div>
       </div>
     </div>
   )

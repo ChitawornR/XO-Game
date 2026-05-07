@@ -8,14 +8,28 @@ import { playMove } from '../use-cases/PlayMove'
 import { saveReplay } from '../use-cases/SaveReplay'
 import type { BotStrategy } from '../../domain/services/bots/BotStrategy'
 import { makeBot, type Difficulty } from '../../domain/services/bots'
+import type { Board } from '../../domain/entities/Board'
+import type { Move } from '../../domain/entities/Move'
 
 // ---------------------------------------------------------------------------
 // State
 // ---------------------------------------------------------------------------
 
-type State = GameState & {
-  /** Set after game ends so the Popup can display the result. */
+const MAX_HISTORY = 5
+
+type GameSnapshot = {
+  board: Board
+  currentPlayer: Player
+  moves: Move[]
+  status: GameStatus
+  winner: Player | null
   notification: { type: 'won'; winner: Player } | { type: 'draw' } | null
+}
+
+type State = GameState & {
+  notification: { type: 'won'; winner: Player } | { type: 'draw' } | null
+  past: GameSnapshot[]
+  future: GameSnapshot[]
 }
 
 // ---------------------------------------------------------------------------
@@ -26,6 +40,8 @@ type Action =
   | { type: 'PLACE'; row: number; col: number; bot: BotStrategy | null }
   | { type: 'DISMISS_NOTIFICATION' }
   | { type: 'RESET' }
+  | { type: 'UNDO' }
+  | { type: 'REDO' }
 
 // ---------------------------------------------------------------------------
 // Reducer
@@ -43,6 +59,19 @@ function buildInitialState(size: number, isSinglePlayer: boolean): State {
     size,
     streak,
     notification: null,
+    past: [],
+    future: [],
+  }
+}
+
+function snapshotOf(state: State): GameSnapshot {
+  return {
+    board: state.board,
+    currentPlayer: state.currentPlayer,
+    moves: state.moves,
+    status: state.status,
+    winner: state.winner,
+    notification: state.notification,
   }
 }
 
@@ -51,6 +80,13 @@ function reducer(state: State, action: Action): State {
     case 'PLACE': {
       if (state.status !== 'playing') return state
       if (state.board[action.row][action.col] !== '') return state
+
+      // Save snapshot before the move (multiplayer only); clear redo stack
+      const snapshot = snapshotOf(state)
+      const newPast = state.isSinglePlayer
+        ? state.past
+        : [...state.past, snapshot].slice(-MAX_HISTORY)
+      const newFuture: GameSnapshot[] = state.isSinglePlayer ? state.future : []
 
       // --- Player move ---
       const playerResult = playMove(
@@ -70,6 +106,8 @@ function reducer(state: State, action: Action): State {
           winner: playerResult.winner,
           status: 'won',
           notification: { type: 'won', winner: playerResult.winner },
+          past: newPast,
+          future: newFuture,
         }
       }
 
@@ -80,6 +118,8 @@ function reducer(state: State, action: Action): State {
           moves: playerResult.moves,
           status: 'draw',
           notification: { type: 'draw' },
+          past: newPast,
+          future: newFuture,
         }
       }
 
@@ -89,7 +129,6 @@ function reducer(state: State, action: Action): State {
       if (state.isSinglePlayer && nextPlayer === 'O' && action.bot) {
         const botMoveCoord = action.bot.decide(playerResult.board, state.streak, 'O')
         if (!botMoveCoord) {
-          // Board full after player move (draw)
           return {
             ...state,
             board: playerResult.board,
@@ -97,6 +136,8 @@ function reducer(state: State, action: Action): State {
             currentPlayer: nextPlayer,
             status: 'draw',
             notification: { type: 'draw' },
+            past: newPast,
+            future: newFuture,
           }
         }
 
@@ -117,6 +158,8 @@ function reducer(state: State, action: Action): State {
             winner: botResult.winner,
             status: 'won',
             notification: { type: 'won', winner: botResult.winner },
+            past: newPast,
+            future: newFuture,
           }
         }
 
@@ -127,6 +170,8 @@ function reducer(state: State, action: Action): State {
             moves: botResult.moves,
             status: 'draw',
             notification: { type: 'draw' },
+            past: newPast,
+            future: newFuture,
           }
         }
 
@@ -134,7 +179,9 @@ function reducer(state: State, action: Action): State {
           ...state,
           board: botResult.board,
           moves: botResult.moves,
-          currentPlayer: 'X', // back to player after bot move
+          currentPlayer: 'X',
+          past: newPast,
+          future: newFuture,
         }
       }
 
@@ -144,6 +191,30 @@ function reducer(state: State, action: Action): State {
         board: playerResult.board,
         moves: playerResult.moves,
         currentPlayer: nextPlayer,
+        past: newPast,
+        future: newFuture,
+      }
+    }
+
+    case 'UNDO': {
+      if (state.isSinglePlayer || state.past.length === 0) return state
+      const previous = state.past[state.past.length - 1]
+      return {
+        ...state,
+        ...previous,
+        past: state.past.slice(0, -1),
+        future: [snapshotOf(state), ...state.future],
+      }
+    }
+
+    case 'REDO': {
+      if (state.isSinglePlayer || state.future.length === 0) return state
+      const next = state.future[0]
+      return {
+        ...state,
+        ...next,
+        past: [...state.past, snapshotOf(state)],
+        future: state.future.slice(1),
       }
     }
 
@@ -168,6 +239,10 @@ export type UseGameReturn = {
   reset: () => void
   dismissNotification: () => void
   persistReplay: (api: ReplayApi) => Promise<void>
+  undo: () => void
+  redo: () => void
+  canUndo: boolean
+  canRedo: boolean
 }
 
 export function useGame(
@@ -200,6 +275,9 @@ export function useGame(
     [],
   )
 
+  const undo = useCallback(() => dispatch({ type: 'UNDO' }), [])
+  const redo = useCallback(() => dispatch({ type: 'REDO' }), [])
+
   const persistReplay = useCallback(
     (api: ReplayApi) =>
       saveReplay(api, {
@@ -211,5 +289,8 @@ export function useGame(
     [state.size, state.winner, state.moves, state.isSinglePlayer],
   )
 
-  return { state, placeCell, reset, dismissNotification, persistReplay }
+  const canUndo = !isSinglePlayer && state.past.length > 0
+  const canRedo = !isSinglePlayer && state.future.length > 0
+
+  return { state, placeCell, reset, dismissNotification, persistReplay, undo, redo, canUndo, canRedo }
 }

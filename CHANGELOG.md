@@ -3,6 +3,21 @@
 All notable changes to this project are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.2.0] - 2026-05-07
+
+### Added
+- **Local multiplayer Undo / Redo** — players in local 2-player mode can undo and redo moves with a shared history depth of 5.
+  - Undo rolls back to the previous board state (both board, current player, move list and game status).
+  - Redo re-applies the rolled-back state; making a new move after an undo clears the redo stack.
+  - History is capped at 5 snapshots — you can undo at most 5 moves, and you can always redo as many times as you undid.
+  - Undo / Redo buttons are only shown in local multiplayer mode (hidden in single-player vs bot).
+  - Buttons display the current available depth: `Undo (N)` / `Redo (N)`.
+
+### Changed
+- `useGame` hook — `past` and `future` snapshot stacks added to reducer state; `PLACE` saves a snapshot before each move (multiplayer only) and clears the redo stack; `UNDO` / `REDO` actions restore the relevant snapshot.
+- `BoardGame.tsx` — Undo and Redo buttons rendered alongside the existing Reset button when `!isSinglePlayer`.
+- `BoardGame.css` — new `.boardActions` flex wrapper and `.undoRedoBtn` styles with disabled-state opacity.
+
 ## [2.1.3] - 2026-04-30
 
 ### Fixed
@@ -202,6 +217,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the 
 [2.0.2]: https://github.com/ChitawornR/XO-Game/releases/tag/v2.0.2
 
 [2.1.0]: https://github.com/ChitawornR/XO-Game/releases/tag/v2.1.0
+
+[2.2.0]: https://github.com/ChitawornR/XO-Game/releases/tag/v2.2.0
 
 [2.1.3]: https://github.com/ChitawornR/XO-Game/releases/tag/v2.1.3
 
